@@ -1,0 +1,130 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap");
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "Outfit", sans-serif;
+    background-color: #f9fafb;
+    color: #111827;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark body {
+    background-color: #020617;
+    color: #f8fafc;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: "Outfit", sans-serif;
+}
+
+/* Smooth theme transitions */
+body,
+header,
+nav,
+aside,
+main,
+section,
+article,
+footer,
+div,
+button,
+input,
+textarea,
+select,
+table,
+tr,
+td,
+th {
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+}
+
+/* Consistent selection color */
+::selection {
+    background: #bae6fd;
+    color: #0c4a6e;
+}
+
+html.dark ::selection {
+    background: #075985;
+    color: #f0f9ff;
+}
+
+/* Scrollbar */
+html.dark {
+    color-scheme: dark;
+}
+
+html:not(.dark) {
+    color-scheme: light;
+}
+
+/* Print styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .reports-print-area,
+    .reports-print-area * {
+        visibility: visible;
+    }
+
+    .reports-print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        color: black !important;
+        background: white !important;
+    }
+
+    .reports-no-print {
+        display: none !important;
+    }
+}
+
+/* 
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .reports-print-area,
+    .reports-print-area * {
+        visibility: visible;
+    }
+
+    .reports-print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    .reports-no-print {
+        display: none !important;
+    }
+
+    .reports-print-area {
+        color: black !important;
+        background: white !important;
+    }
+} */

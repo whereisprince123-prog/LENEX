@@ -1,0 +1,385 @@
+
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+    ResponsiveContainer,
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    PieChart,
+    Pie,
+    Cell,
+} from "recharts";
+import {
+    Users,
+    CreditCard,
+    AlertTriangle,
+    CheckCircle,
+    Plus,
+    RefreshCw,
+    ArrowUpRight,
+} from "lucide-react";
+import { useTranslation } from "react-i18next";
+import api from "../services/api";
+import DashboardCard from "../components/dashboard/DashboardCard.jsx";
+import RecentDebts from "../components/dashboard/RecentDebt.jsx";
+import OverdueDebts from "../components/dashboard/OverdueDebt.jsx";
+
+const COLORS = ["#F59E0B", "#EF4444", "#10B981"];
+
+const money = (value) =>
+    `${new Intl.NumberFormat("en-RW", {
+        maximumFractionDigits: 0,
+    }).format(Number(value) || 0)} RWF`;
+
+const TooltipContent = ({ active, payload, label }) => {
+    if (!active || !payload?.length) return null;
+
+    return (
+        <div className="rounded-lg border border-gray-200 bg-white px-3 py-2 shadow-sm">
+            <p className="text-xs text-gray-500">{label}</p>
+            <p className="mt-1 text-sm font-semibold text-gray-900">
+                {money(payload[0].value)}
+            </p>
+        </div>
+    );
+};
+
+const Dashboard = () => {
+    const navigate = useNavigate();
+   const { t } = useTranslation();
+    const [summary, setSummary] = useState(null);
+    const [recentDebts, setRecentDebts] = useState([]);
+    const [overdueDebts, setOverdueDebts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+    const [error, setError] = useState("");
+
+    const loadDashboard = useCallback(async (refresh = false) => {
+        try {
+            refresh ? setRefreshing(true) : setLoading(true);
+            setError("");
+
+            const [summaryRes, recentRes, overdueRes] = await Promise.all([
+                api.get("/dashboard/summary"),
+                api.get("/dashboard/recent-debts"),
+                api.get("/dashboard/overdue-debts"),
+            ]);
+
+            setSummary(summaryRes.data.data);
+            setRecentDebts(recentRes.data.data || []);
+            setOverdueDebts(overdueRes.data.data || []);
+        } catch (err) {
+            console.error("Dashboard error:", err);
+            setError(
+                err.response?.data?.message ||
+                "Couldn't load dashboard data. Please try again."
+            );
+        } finally {
+            setLoading(false);
+            setRefreshing(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        loadDashboard();
+    }, [loadDashboard]);
+
+    let user = {};
+
+    try {
+        user = JSON.parse(localStorage.getItem("lenex_user") || "{}");
+    } catch {
+        user = {};
+    }
+
+    const ownerName =
+        user.full_name ||
+        user.owner_name ||
+        user.name ||
+        [user.first_name, user.last_name].filter(Boolean).join(" ") ||
+        "there";
+
+ const amounts = [
+    { name: t("unpaid"), amount: Number(summary?.unpaid_amount) || 0 },
+    { name: t("overdue"), amount: Number(summary?.overdue_amount) || 0 },
+    { name: t("paid"), amount: Number(summary?.paid_amount) || 0 },
+];
+
+const statuses = [
+    { name: t("unpaid"), value: Number(summary?.unpaid_count) || 0 },
+    { name: t("overdue"), value: Number(summary?.overdue_count) || 0 },
+    { name: t("paid"), value: Number(summary?.paid_count) || 0 },
+];
+
+    if (loading) {
+        return (
+            <div className="flex min-h-64 items-center justify-center">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-sky-500" />
+            </div>
+        );
+    }
+
+    if (error && !summary) {
+        return (
+            <div className="rounded-xl border border-red-200 bg-white p-5">
+                <p className="font-semibold text-gray-900">
+                    Unable to load dashboard
+                </p>
+                <p className="mt-1 text-sm text-gray-500">{error}</p>
+                <button
+                    onClick={() => loadDashboard()}
+                    className="mt-4 rounded-lg bg-sky-500 px-4 py-2 text-sm font-medium text-white hover:bg-sky-600"
+                >
+                    Try again
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <main className="min-w-0 space-y-6 pb-6">
+            {/* Header */}
+            <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <p className="text-sm font-medium text-gray-500">
+                        {t("businessOverview")}
+                    </p>
+                    <h1 className="mt-1 text-2xl font-bold tracking-tight text-gray-900">
+                       {t("welcomeBack")}, {ownerName}
+                    </h1>
+                    <p className="mt-1 text-sm text-gray-500">
+                       {t("businessOverviewDescription")}
+                    </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                    <button
+                        onClick={() => loadDashboard(true)}
+                        disabled={refreshing}
+                        aria-label="Refresh dashboard"
+                        className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60"
+                    >
+                        <RefreshCw
+                            size={15}
+                            className={refreshing ? "animate-spin" : ""}
+                        />
+                         {t("refresh")}
+                    </button>
+
+                    <button
+                        onClick={() => navigate("/dashboard/customers")}
+                        className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    >
+                        <Plus size={16} />
+                        {t("customer")}
+                    </button>
+
+                    <button
+                        onClick={() => navigate("/dashboard/debts")}
+                        className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-sky-500 px-3 text-sm font-medium text-white hover:bg-sky-600"
+                    >
+                        <Plus size={16} />
+                        {t("recordDebt")}
+                    </button>
+                </div>
+            </header>
+
+            {error && (
+                <p className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+                    {error}
+                </p>
+            )}
+
+            {/* Summary */}
+            <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-4">
+                <DashboardCard
+                    title={t("totalCustomers")}
+                    value={summary?.total_customers || 0}
+                    subtitle={t("activeCustomers")}
+                    icon={<Users size={19} />}
+                    iconClass="bg-sky-50 text-sky-600"
+                />
+                <DashboardCard
+                    title={t("unpaidDebts")}
+                    value={money(summary?.unpaid_amount)}
+                    subtitle={`${summary?.unpaid_count || 0} ${t("unpaidDebts")}`}
+                    icon={<CreditCard size={19} />}
+                    iconClass="bg-amber-50 text-amber-600"
+                />
+                <DashboardCard
+                    title={t("overdue")}
+                    value={money(summary?.overdue_amount)}
+                    subtitle={`${summary?.overdue_count || 0} ${t("overdue")}`}
+                    icon={<AlertTriangle size={19} />}
+                    iconClass="bg-red-50 text-red-600"
+                />
+                <DashboardCard
+                    title={t("paidDebts")}
+                    value={money(summary?.paid_amount)}
+                    subtitle={`${summary?.paid_count || 0} ${t("paidDebts")}`}
+                    icon={<CheckCircle size={19} />}
+                    iconClass="bg-emerald-50 text-emerald-600"
+                />
+            </section>
+
+            {/* Charts */}
+            <section className="grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-5">
+                <div className="min-w-0 rounded-xl border border-gray-200 bg-white p-4 sm:p-5 xl:col-span-3">
+                    <div>
+                        <h2 className="text-sm font-semibold text-gray-900">
+                            {t("debtAmounts")}
+                        </h2>
+                        <p className="mt-1 text-xs text-gray-500">
+                            {t("breakdownByDebtStatus")}
+                        </p>
+                    </div>
+
+                    <div className="mt-4 h-64 w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                                data={amounts}
+                                margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
+                            >
+                                <CartesianGrid
+                                    vertical={false}
+                                    stroke="#F1F5F9"
+                                />
+                                <XAxis
+                                    dataKey="name"
+                                    axisLine={false}
+                                    tickLine={false}
+                                    tick={{ fontSize: 12, fill: "#64748B" }}
+                                />
+                                <YAxis
+                                    width={55}
+                                    axisLine={false}
+                                    tickLine={false}
+                                    tick={{ fontSize: 11, fill: "#64748B" }}
+                                    tickFormatter={(value) =>
+                                        value >= 1000
+                                            ? `${Math.round(value / 1000)}k`
+                                            : value
+                                    }
+                                />
+                                <Tooltip content={<TooltipContent />} />
+                                <Bar
+                                    dataKey="amount"
+                                    radius={[5, 5, 0, 0]}
+                                    maxBarSize={54}
+                                >
+                                    {amounts.map((item, index) => (
+                                        <Cell
+                                            key={item.name}
+                                            fill={COLORS[index]}
+                                        />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+
+                <div className="min-w-0 rounded-xl border border-gray-200 bg-white p-4 sm:p-5 xl:col-span-2">
+                    <h2 className="text-sm font-semibold text-gray-900">
+                        {t("debtDistribution")}
+                    </h2>
+                    <p className="mt-1 text-xs text-gray-500">
+                        {t("numberOfDebtsByStatus")}
+                    </p>
+
+                    <div className="mt-2 h-64 w-full">
+                        {statuses.every((item) => item.value === 0) ? (
+                            <div className="flex h-full items-center justify-center text-sm text-gray-400">
+                                {t("noDebtRecordsYet")}
+                            </div>
+                        ) : (
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie
+                                        data={statuses.filter(
+                                            (item) => item.value > 0
+                                        )}
+                                        dataKey="value"
+                                        nameKey="name"
+                                        innerRadius={55}
+                                        outerRadius={82}
+                                        paddingAngle={3}
+                                    >
+                                        {statuses
+                                            .filter((item) => item.value > 0)
+                                            .map((item) => (
+                                                <Cell
+                                                    key={item.name}
+                                                    fill={
+                                                        COLORS[
+                                                            statuses.findIndex(
+                                                                (status) =>
+                                                                    status.name === item.name
+                                                            )
+                                                        ]
+                                                    }
+                                                    stroke="none"
+                                                />
+                                            ))}
+                                    </Pie>
+                                    <Tooltip />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        )}
+                    </div>
+
+                    <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-gray-600">
+                        {statuses.map((item, index) => (
+                            <div key={item.name} className="flex items-center gap-2">
+                                <span
+                                    className="h-2.5 w-2.5 rounded-full"
+                                    style={{ backgroundColor: COLORS[index] }}
+                                />
+                                {item.name}
+                                <span className="font-semibold text-gray-900">
+                                    {item.value}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Recent and overdue debts */}
+            <section className="grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-3">
+                <div className="min-w-0 xl:col-span-2">
+                    <RecentDebts debts={recentDebts} />
+                </div>
+                <div className="min-w-0">
+                    <OverdueDebts debts={overdueDebts} />
+                </div>
+            </section>
+
+            {/* Minimal call to action */}
+            <section className="flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h2 className="text-sm font-semibold text-gray-900">
+                      {t("keepYourRecordsUpToDate")}
+                    </h2>
+                    <p className="mt-1 text-sm text-gray-500">
+                      {t("addDebtOrReviewOutstandingBalances")}
+                    </p>
+                </div>
+
+                <button
+                    onClick={() => navigate("/dashboard/debts")}
+                    className="inline-flex shrink-0 items-center justify-center gap-2 self-start text-sm font-semibold text-sky-600 hover:text-sky-700 sm:self-center"
+                >
+                   {t("manageCustomerDebts")}
+                    <ArrowUpRight size={16} />
+                </button>
+            </section>
+        </main>
+    );
+};
+
+export default Dashboard;
