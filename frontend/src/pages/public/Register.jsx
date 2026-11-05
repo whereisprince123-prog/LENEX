@@ -736,22 +736,40 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api.js";
 import ThemeToggle from "../../components/ThemeToggle.jsx";
 
+function isAtLeast18Frontend(dateOfBirth) {
+    if (!dateOfBirth) return false;
+
+    const dob = new Date(`${dateOfBirth}T00:00:00`);
+    const today = new Date();
+
+    if (Number.isNaN(dob.getTime()) || dob >= today) return false;
+
+    let age = today.getFullYear() - dob.getFullYear();
+
+    if (
+        today.getMonth() < dob.getMonth() ||
+        (today.getMonth() === dob.getMonth() &&
+            today.getDate() < dob.getDate())
+    ) {
+        age--;
+    }
+
+    return age >= 18;
+}
+
 function Register() {
-
-
   const [formData, setFormData] = useState({
     business_name: "",
     business_phone: "",
     business_email: "",
     business_address: "",
-
     full_name: "",
+    date_of_birth: "",
     email: "",
     phone_number: "",
     password: "",
-
     terms: false,
-  });
+});
 
    const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -765,11 +783,22 @@ function Register() {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
+    if (["business_phone", "phone_number"].includes(name)) {
+        const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+
+        setFormData((previous) => ({
+            ...previous,
+            [name]: digitsOnly,
+        }));
+
+        return;
+    }
+
     setFormData((previous) => ({
-      ...previous,
-      [name]: type === "checkbox" ? checked : value,
+        ...previous,
+        [name]: type === "checkbox" ? checked : value,
     }));
-  };
+};
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -781,11 +810,53 @@ function Register() {
     setStep(1);
   };
 
- const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
 
     setError("");
     setSuccess("");
+
+    if (!formData.terms) {
+        setError("Please accept the terms of service.");
+        return;
+    }
+
+    if (!isAtLeast18Frontend(formData.date_of_birth)) {
+        setError("You must be at least 18 years old.");
+        return;
+    }
+
+    if (!/^07\d{8}$/.test(formData.business_phone)) {
+        setError("Business phone must contain exactly 10 digits and start with 07.");
+        return;
+    }
+
+    if (!/^07\d{8}$/.test(formData.phone_number)) {
+        setError("Owner phone must contain exactly 10 digits and start with 07.");
+        return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+        setError("Please enter a valid email address.");
+        return;
+    }
+
+    if (
+        formData.business_email &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.business_email.trim())
+    ) {
+        setError("Please enter a valid business email address.");
+        return;
+    }
+
+    const strongPassword =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,72}$/;
+
+    if (!strongPassword.test(formData.password)) {
+        setError("Use at least 8 characters, including uppercase, lowercase, a number and a special character.");
+        return;
+    }
+
     setLoading(true);
 
     try {
@@ -795,37 +866,28 @@ function Register() {
             business_email: formData.business_email,
             business_address: formData.business_address,
             full_name: formData.full_name,
-            email: formData.email,
+            date_of_birth: formData.date_of_birth,
+            email: formData.email.trim().toLowerCase(),
             phone_number: formData.phone_number,
-            password: formData.password
+            password: formData.password,
         };
-
-   
 
         const response = await api.post(
             "/auth/business/register",
             registrationData
         );
 
-   
-
         setSuccess(
             response.data.message || "Business registered successfully!"
         );
 
-        setTimeout(() => {
-            navigate("/login");
-        }, 1500);
+        setTimeout(() => navigate("/login"), 1500);
 
-
-
- 
-
+    } catch (error) {
         setError(
             error.response?.data?.message ||
             "Registration failed. Please try again."
         );
-
     } finally {
         setLoading(false);
     }
@@ -1241,6 +1303,30 @@ function Register() {
 
                   </div>
 
+                     <div>
+               <label
+                htmlFor="date_of_birth"
+                 className="mb-2 block text-sm font-semibold text-gray-700 dark:text-slate-300"
+                  >
+        Date of birth
+    </label>
+
+    <input
+        id="date_of_birth"
+        name="date_of_birth"
+        type="date"
+        value={formData.date_of_birth}
+        max={new Date().toISOString().split("T")[0]}
+        onChange={handleChange}
+        required
+        className="h-12 w-full rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 px-4 text-sm"
+    />
+
+    <p className="mt-2 text-xs text-gray-400 dark:text-slate-500">
+        You must be at least 18 years old.
+    </p>
+</div>
+
 
                   {/* Email */}
                   <div>
@@ -1280,6 +1366,9 @@ function Register() {
                       id="phone_number"
                       name="phone_number"
                       type="tel"
+                      inputMode="numeric"
+                      maxLength={10}
+                      pattern="07[0-9]{8}"
                       value={formData.phone_number}
                       onChange={handleChange}
                       placeholder="0788 111 111"
@@ -1363,7 +1452,7 @@ function Register() {
                       ← Back
                     </button>
 
-                   <button
+                     <button
     type="submit"
     disabled={loading}
     className="group flex h-12 flex-[2] items-center justify-center gap-2 rounded-xl bg-sky-600 text-sm font-semibold text-white transition hover:bg-sky-700 hover:shadow-lg hover:shadow-sky-100 disabled:cursor-not-allowed disabled:opacity-70"
@@ -1378,9 +1467,11 @@ function Register() {
             </span>
         </>
     )}
-</button>
+                     </button>
 
-            {error && (
+                  </div>
+
+                  {error && (
                 <div className="mb-4 rounded-lg bg-red-50 dark:bg-red-950/40 p-3 text-sm text-red-400">
                     {error}
                 </div>
@@ -1391,8 +1482,6 @@ function Register() {
                     {success}
                 </div>
             )}
-
-                  </div>
 
                 </form>
 

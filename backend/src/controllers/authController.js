@@ -3,8 +3,43 @@ const jwt = require("jsonwebtoken");
 const db = require("../config/db");
 
 
+const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+const isValidRwandaPhone = (phone) => {
+    return /^07\d{8}$/.test(phone);
+};
+
+const isAtLeast18 = (dateOfBirth) => {
+    if (!dateOfBirth || !/^\d{4}-\d{2}-\d{2}$/.test(dateOfBirth)) {
+        return false;
+    }
+
+    const dob = new Date(`${dateOfBirth}T00:00:00`);
+    const today = new Date();
+
+    if (Number.isNaN(dob.getTime()) || dob >= today) {
+        return false;
+    }
+
+    let age = today.getFullYear() - dob.getFullYear();
+
+    const birthdayHasNotOccurred =
+        today.getMonth() < dob.getMonth() ||
+        (today.getMonth() === dob.getMonth() &&
+         today.getDate() < dob.getDate());
+
+    if (birthdayHasNotOccurred) age--;
+
+    return age >= 18;
+};
+
+
+
 const registerBusiness = async (req, res) => {
-    const connection = await db.getConnection();
+    let connection;
+    let transactionStarted = false;
 
     try {
         const {
@@ -13,17 +48,20 @@ const registerBusiness = async (req, res) => {
             business_email,
             business_address,
             full_name,
+            date_of_birth,
             email,
             phone_number,
             password
         } = req.body;
 
-        // 1. Validate required fields
+        // 1. Required fields
         if (
-            !business_name ||
+            !business_name?.trim() ||
             !business_phone ||
-            !full_name ||
+            !full_name?.trim() ||
+            !date_of_birth ||
             !email ||
+            !phone_number ||
             !password
         ) {
             return res.status(400).json({
@@ -32,11 +70,69 @@ const registerBusiness = async (req, res) => {
             });
         }
 
-        // 2. Check if business email already exists
-        if (business_email) {
+        // 2. Validate email addresses
+        const normalizedEmail = email.trim().toLowerCase();
+        const normalizedBusinessEmail = business_email?.trim().toLowerCase();
+
+        if (!isValidEmail(normalizedEmail)) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter a valid owner email address"
+            });
+        }
+
+        if (
+            normalizedBusinessEmail &&
+            !isValidEmail(normalizedBusinessEmail)
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter a valid business email address"
+            });
+        }
+
+        // 3. Validate phone numbers
+        if (!isValidRwandaPhone(business_phone)) {
+            return res.status(400).json({
+                success: false,
+                message: "Business phone must contain exactly 10 digits and start with 07"
+            });
+        }
+
+        if (!isValidRwandaPhone(phone_number)) {
+            return res.status(400).json({
+                success: false,
+                message: "Owner phone must contain exactly 10 digits and start with 07"
+            });
+        }
+
+        // 4. Validate age
+        if (!isAtLeast18(date_of_birth)) {
+            return res.status(400).json({
+                success: false,
+                message: "You must be at least 18 years old to register"
+            });
+        }
+
+        // 5. Validate password strength
+        const strongPassword =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,72}$/;
+
+        if (!strongPassword.test(password)) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must contain at least 8 characters, including uppercase, lowercase, a number and a special character"
+            });
+        }
+
+        // 6. Check duplicate business email
+        if (normalizedBusinessEmail) {
             const [existingBusiness] = await db.query(
-                "SELECT business_id FROM businesses WHERE business_email = ?",
-                [business_email]
+                `SELECT business_id
+                 FROM businesses
+                 WHERE LOWER(business_email) = ?
+                 LIMIT 1`,
+                [normalizedBusinessEmail]
             );
 
             if (existingBusiness.length > 0) {
@@ -47,10 +143,13 @@ const registerBusiness = async (req, res) => {
             }
         }
 
-        // 3. Check if owner email already exists
+        // 7. Check duplicate owner email
         const [existingUser] = await db.query(
-            "SELECT user_id FROM business_users WHERE email = ?",
-            [email]
+            `SELECT user_id
+             FROM business_users
+             WHERE LOWER(email) = ?
+             LIMIT 1`,
+            [normalizedEmail]
         );
 
         if (existingUser.length > 0) {
@@ -60,13 +159,15 @@ const registerBusiness = async (req, res) => {
             });
         }
 
-        // 4. Hash password
-        const password_hash = await bcrypt.hash(password, 10);
+        // 8. Hash password
+        const password_hash = await bcrypt.hash(password, 12);
 
-        // 5. Start transaction
+        // 9. Start transaction
+        connection = await db.getConnection();
         await connection.beginTransaction();
+        transactionStarted = true;
 
-        // 6. Create business
+        // 10. Create business
         const [businessResult] = await connection.query(
             `INSERT INTO businesses
             (
@@ -78,71 +179,76 @@ const registerBusiness = async (req, res) => {
             )
             VALUES (?, ?, ?, ?, 'ACTIVE')`,
             [
-                business_name,
+                business_name.trim(),
                 business_phone,
-                business_email || null,
-                business_address || null
+                normalizedBusinessEmail || null,
+                business_address?.trim() || null
             ]
         );
 
         const business_id = businessResult.insertId;
 
-        // 7. Create business owner
+        // 11. Create business owner
         const [userResult] = await connection.query(
             `INSERT INTO business_users
             (
                 business_id,
                 full_name,
+                date_of_birth,
                 email,
                 phone_number,
                 password_hash,
                 role
             )
-            VALUES (?, ?, ?, ?, ?, 'OWNER')`,
+            VALUES (?, ?, ?, ?, ?, ?, 'OWNER')`,
             [
                 business_id,
-                full_name,
-                email,
-                phone_number || null,
+                full_name.trim(),
+                date_of_birth,
+                normalizedEmail,
+                phone_number,
                 password_hash
             ]
         );
 
         const user_id = userResult.insertId;
 
-        // 8. Commit transaction
+        // 12. Commit transaction
         await connection.commit();
+        transactionStarted = false;
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message: "Business registered successfully",
             data: {
                 business_id,
                 user_id,
-                business_name,
-                owner_name: full_name,
-                email,
+                business_name: business_name.trim(),
+                owner_name: full_name.trim(),
+                email: normalizedEmail,
                 role: "OWNER"
             }
         });
 
     } catch (error) {
-
-        // Rollback if something goes wrong
-        await connection.rollback();
+        if (connection && transactionStarted) {
+            await connection.rollback();
+        }
 
         console.error("Business registration error:", error);
 
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
-            message: "Business registration failed",
-            error: error.message
+            message: "Business registration failed. Please try again."
         });
 
     } finally {
-        connection.release();
+        if (connection) {
+            connection.release();
+        }
     }
 };
+
 
 
 
