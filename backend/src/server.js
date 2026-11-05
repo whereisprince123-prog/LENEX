@@ -24,11 +24,15 @@ const app = express();
 // MIDDLEWARE
 // =====================================================
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://lenex.vercel.app"
+];
+
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true
 }));
-
 app.use(express.json());
 app.use(cookieParser());
 
@@ -51,12 +55,12 @@ app.get("/", (req, res) => {
 
 app.get("/api/test-db", async (req, res) => {
     try {
-        const [rows] = await db.query("SELECT 1 AS result");
+        const [rows] = await db.query("SELECT DATABASE() AS name");
 
         res.status(200).json({
             success: true,
             message: "MySQL database connected successfully",
-            database: rows[0].result
+            database: rows[0].name
         });
 
     } catch (error) {
@@ -109,11 +113,8 @@ app.use("/api/reports", reportRoutes);
 // =====================================================
 // SERVER
 // =====================================================
-
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
-    console.log(`LENEX BACKEND STARTED`);
-    console.log(`PORT: ${PORT}`);
-    console.log(`ROOT ROUTE: http://localhost:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`LENEX server running on port ${PORT}`);
 });

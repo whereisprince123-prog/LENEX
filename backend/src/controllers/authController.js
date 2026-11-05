@@ -220,9 +220,9 @@ const token = jwt.sign(
 
 // Store token in a separate HttpOnly cookie
 res.cookie("lenex_admin_token", token, {
-    httpOnly: true,
+     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     maxAge: 24 * 60 * 60 * 1000,
     path: "/"
 });
@@ -346,9 +346,9 @@ const token = jwt.sign(
 
 // Store token in an HttpOnly cookie
 res.cookie("lenex_token", token, {
-    httpOnly: true,
+     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     maxAge: 24 * 60 * 60 * 1000,
     path: "/"
 });
@@ -387,7 +387,7 @@ const logoutBusiness = (req, res) => {
     res.clearCookie("lenex_token", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         path: "/"
     });
 
@@ -401,7 +401,7 @@ const logoutAdmin = (req, res) => {
     res.clearCookie("lenex_admin_token", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         path: "/"
     });
 
