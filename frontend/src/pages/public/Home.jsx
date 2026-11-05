@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { useForm, ValidationError } from "@formspree/react";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import {
     Mail,
     Phone,
@@ -35,9 +35,7 @@ const [contactInfo, setContactInfo] = useState({
 useEffect(() => {
   const fetchContactInfo = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/settings/public"
-      );
+      const response = await api.get("/settings/public");
 
       if (response.data.success && response.data.data) {
         setContactInfo((current) => ({
