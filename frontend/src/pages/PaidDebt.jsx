@@ -60,7 +60,7 @@ const PaidDebts = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="lenex-paid-debts space-y-6">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <div className="flex items-center gap-2 text-green-600">

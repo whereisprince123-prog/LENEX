@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import ThemeToggle from "../../components/ThemeToggle.jsx";
 function FAQ() {
     const [openIndex, setOpenIndex] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
@@ -181,311 +181,273 @@ function FAQ() {
         }))
         .filter((category) => category.questions.length > 0);
 
-    return (
-        <div className="min-h-screen bg-white text-gray-900">
+  return (
+    <div className="min-h-screen bg-white text-gray-900 dark:bg-slate-950 dark:text-slate-100">
 
-            {/* Navbar */}
-            <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur-md">
-                <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+        {/* Navbar */}
+        <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95">
+            <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
 
-                    <Link
-                        to="/"
-                        className="flex items-center gap-3"
-                    >
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-600">
-                            <span className="text-lg font-bold text-white">
-                                L
-                            </span>
-                        </div>
+                <Link to="/" className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-600">
+                        <span className="text-lg font-bold text-white">L</span>
+                    </div>
 
-                        <div>
-                            <h1 className="text-lg font-bold tracking-tight text-gray-950">
-                                LENEX
-                            </h1>
+                    <div>
+                        <h1 className="text-lg font-bold tracking-tight text-gray-950 dark:text-white">
+                            LENEX
+                        </h1>
+                        <p className="text-[10px] font-medium text-gray-400 dark:text-slate-500">
+                            Debt Management
+                        </p>
+                    </div>
+                </Link>
 
-                            <p className="text-[10px] font-medium text-gray-400">
-                                Debt Management
-                            </p>
-                        </div>
-                    </Link>
+                <div className="flex items-center gap-3">
+                    <ThemeToggle />
 
                     <Link
                         to="/"
-                        className="text-sm font-semibold text-gray-600 transition hover:text-sky-600"
+                        className="text-sm font-semibold text-gray-600 transition hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400"
                     >
                         ← Back to Home
                     </Link>
                 </div>
-            </header>
+            </div>
+        </header>
 
+        {/* Hero */}
+        <section className="relative overflow-hidden bg-slate-50 dark:bg-slate-900">
+            <div className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-sky-100 blur-3xl dark:bg-sky-500/10" />
+            <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-blue-100 blur-3xl dark:bg-blue-500/10" />
 
-            {/* Hero */}
-            <section className="relative overflow-hidden bg-slate-50">
-                <div className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-sky-100 blur-3xl" />
-                <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-blue-100 blur-3xl" />
+            <div className="relative mx-auto max-w-4xl px-6 py-20 text-center sm:py-24">
 
-                <div className="relative mx-auto max-w-4xl px-6 py-20 text-center sm:py-24">
+                <span className="inline-flex rounded-full bg-sky-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-sky-700 dark:bg-sky-500/15 dark:text-sky-400">
+                    Help Center
+                </span>
 
-                    <span className="inline-flex rounded-full bg-sky-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-sky-700">
-                        Help Center
+                <h2 className="mt-6 text-4xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-5xl">
+                    Frequently Asked
+                    <span className="block text-sky-600 dark:text-sky-400">
+                        Questions
                     </span>
+                </h2>
 
-                    <h2 className="mt-6 text-4xl font-bold tracking-tight text-gray-950 sm:text-5xl">
-                        Frequently Asked
-                        <span className="block text-sky-600">
-                            Questions
+                <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-gray-500 dark:text-slate-400 sm:text-lg">
+                    Find answers to common questions about LENEX,
+                    debt management, payments, SMS notifications,
+                    and your business account.
+                </p>
+
+                {/* Search */}
+                <div className="mx-auto mt-10 max-w-2xl">
+                    <div className="relative">
+
+                        <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-xl text-gray-400 dark:text-slate-500">
+                            ⌕
                         </span>
-                    </h2>
 
-                    <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-gray-500 sm:text-lg">
-                        Find answers to common questions about LENEX,
-                        debt management, payments, SMS notifications,
-                        and your business account.
-                    </p>
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            placeholder="Search your question..."
+                            className="h-14 w-full rounded-2xl border border-gray-200 bg-white pl-14 pr-5 text-sm text-gray-800 shadow-sm outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-sky-500 dark:focus:ring-sky-500/10"
+                        />
 
-
-                    {/* Search */}
-                    <div className="mx-auto mt-10 max-w-2xl">
-                        <div className="relative">
-
-                            <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-xl text-gray-400">
-                                ⌕
-                            </span>
-
-                            <input
-                                type="text"
-                                value={searchTerm}
-                                onChange={(e) =>
-                                    setSearchTerm(e.target.value)
-                                }
-                                placeholder="Search your question..."
-                                className="h-14 w-full rounded-2xl border border-gray-200 bg-white pl-14 pr-5 text-sm text-gray-800 shadow-sm outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-100"
-                            />
-
-                        </div>
                     </div>
+                </div>
+
+            </div>
+        </section>
+
+        {/* FAQ Content */}
+        <main className="mx-auto max-w-4xl px-6 py-16 sm:py-20">
+
+            {filteredCategories.length > 0 ? (
+
+                <div className="space-y-14">
+
+                    {filteredCategories.map((category, categoryIndex) => (
+
+                        <section key={category.category}>
+
+                            <div className="mb-6">
+                                <p className="text-xs font-bold uppercase tracking-widest text-sky-600 dark:text-sky-400">
+                                    LENEX Help
+                                </p>
+
+                                <h3 className="mt-2 text-2xl font-bold tracking-tight text-gray-950 dark:text-white">
+                                    {category.category}
+                                </h3>
+                            </div>
+
+                            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-slate-700 dark:bg-slate-900">
+
+                                {category.questions.map((item, questionIndex) => {
+
+                                    const index = `${categoryIndex}-${questionIndex}`;
+                                    const isOpen = openIndex === index;
+
+                                    return (
+                                        <div
+                                            key={item.question}
+                                            className="border-b border-gray-100 last:border-b-0 dark:border-slate-800"
+                                        >
+
+                                            <button
+                                                type="button"
+                                                onClick={() => toggleFAQ(categoryIndex, questionIndex)}
+                                                className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left transition hover:bg-slate-50 dark:hover:bg-slate-800 sm:px-6"
+                                            >
+
+                                                <span
+                                                    className={`text-sm font-semibold sm:text-base ${
+                                                        isOpen
+                                                            ? "text-sky-600 dark:text-sky-400"
+                                                            : "text-gray-800 dark:text-slate-200"
+                                                    }`}
+                                                >
+                                                    {item.question}
+                                                </span>
+
+                                                <span
+                                                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition ${
+                                                        isOpen
+                                                            ? "bg-sky-100 text-sky-600 dark:bg-sky-500/15 dark:text-sky-400"
+                                                            : "bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-slate-400"
+                                                    }`}
+                                                >
+                                                    <span
+                                                        className={`text-xl leading-none transition-transform ${
+                                                            isOpen ? "rotate-45" : ""
+                                                        }`}
+                                                    >
+                                                        +
+                                                    </span>
+                                                </span>
+
+                                            </button>
+
+                                            {isOpen && (
+                                                <div className="px-5 pb-6 sm:px-6">
+                                                    <div className="border-l-2 border-sky-200 pl-4 dark:border-sky-800">
+                                                        <p className="text-sm leading-7 text-gray-500 dark:text-slate-400">
+                                                            {item.answer}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                        </div>
+                                    );
+                                })}
+
+                            </div>
+
+                        </section>
+                    ))}
 
                 </div>
-            </section>
 
+            ) : (
 
-            {/* FAQ Content */}
-            <main className="mx-auto max-w-4xl px-6 py-16 sm:py-20">
+                /* No Results */
+                <div className="rounded-2xl border border-gray-200 bg-slate-50 px-6 py-16 text-center dark:border-slate-700 dark:bg-slate-900">
 
-                {filteredCategories.length > 0 ? (
-
-                    <div className="space-y-14">
-
-                        {filteredCategories.map(
-                            (category, categoryIndex) => (
-
-                                <section
-                                    key={category.category}
-                                >
-
-                                    <div className="mb-6">
-                                        <p className="text-xs font-bold uppercase tracking-widest text-sky-600">
-                                            LENEX Help
-                                        </p>
-
-                                        <h3 className="mt-2 text-2xl font-bold tracking-tight text-gray-950">
-                                            {category.category}
-                                        </h3>
-                                    </div>
-
-
-                                    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-
-                                        {category.questions.map(
-                                            (item, questionIndex) => {
-
-                                                const index = `${categoryIndex}-${questionIndex}`;
-
-                                                const isOpen =
-                                                    openIndex === index;
-
-                                                return (
-                                                    <div
-                                                        key={item.question}
-                                                        className="border-b border-gray-100 last:border-b-0"
-                                                    >
-
-                                                        <button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                toggleFAQ(
-                                                                    categoryIndex,
-                                                                    questionIndex
-                                                                )
-                                                            }
-                                                            className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left transition hover:bg-slate-50 sm:px-6"
-                                                        >
-
-                                                            <span
-                                                                className={`text-sm font-semibold sm:text-base ${
-                                                                    isOpen
-                                                                        ? "text-sky-600"
-                                                                        : "text-gray-800"
-                                                                }`}
-                                                            >
-                                                                {item.question}
-                                                            </span>
-
-                                                            <span
-                                                                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition ${
-                                                                    isOpen
-                                                                        ? "bg-sky-100 text-sky-600"
-                                                                        : "bg-gray-100 text-gray-500"
-                                                                }`}
-                                                            >
-                                                                <span
-                                                                    className={`text-xl leading-none transition-transform ${
-                                                                        isOpen
-                                                                            ? "rotate-45"
-                                                                            : ""
-                                                                    }`}
-                                                                >
-                                                                    +
-                                                                </span>
-                                                            </span>
-
-                                                        </button>
-
-
-                                                        {isOpen && (
-                                                            <div className="px-5 pb-6 sm:px-6">
-
-                                                                <div className="border-l-2 border-sky-200 pl-4">
-                                                                    <p className="text-sm leading-7 text-gray-500">
-                                                                        {item.answer}
-                                                                    </p>
-                                                                </div>
-
-                                                            </div>
-                                                        )}
-
-                                                    </div>
-                                                );
-                                            }
-                                        )}
-
-                                    </div>
-
-                                </section>
-                            )
-                        )}
-
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-2xl dark:bg-slate-800">
+                        ?
                     </div>
 
-                ) : (
+                    <h3 className="mt-5 text-xl font-bold text-gray-900 dark:text-white">
+                        No questions found
+                    </h3>
 
-                    /* No Results */
-                    <div className="rounded-2xl border border-gray-200 bg-slate-50 px-6 py-16 text-center">
-
-                        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-2xl">
-                            ?
-                        </div>
-
-                        <h3 className="mt-5 text-xl font-bold text-gray-900">
-                            No questions found
-                        </h3>
-
-                        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-500">
-                            We couldn't find an answer matching
-                            your search. Try using different keywords.
-                        </p>
-
-                        <button
-                            type="button"
-                            onClick={() => setSearchTerm("")}
-                            className="mt-6 rounded-xl bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-700"
-                        >
-                            View all questions
-                        </button>
-
-                    </div>
-
-                )}
-
-            </main>
-
-
-            {/* Still Have Questions */}
-            <section className="border-t border-gray-100 bg-slate-50">
-
-                <div className="mx-auto max-w-4xl px-6 py-16 text-center sm:py-20">
-
-                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-100">
-                        <span className="text-2xl text-sky-600">
-                            ?
-                        </span>
-                    </div>
-
-                    <h2 className="mt-5 text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl">
-                        Still have questions?
-                    </h2>
-
-                    <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-gray-500">
-                        If you cannot find the answer you are looking
-                        for, you can get in touch with the LENEX team.
+                    <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-500 dark:text-slate-400">
+                        We couldn't find an answer matching
+                        your search. Try using different keywords.
                     </p>
 
-                    <Link
-                        to="/#contact"
-                        className="mt-7 inline-flex items-center rounded-xl bg-sky-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-700 hover:shadow-lg hover:shadow-sky-100"
+                    <button
+                        type="button"
+                        onClick={() => setSearchTerm("")}
+                        className="mt-6 rounded-xl bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-700"
                     >
-                        Contact LENEX
-                        <span className="ml-2 text-lg">
-                            →
-                        </span>
+                        View all questions
+                    </button>
+
+                </div>
+
+            )}
+
+        </main>
+
+        {/* Still Have Questions */}
+        <section className="border-t border-gray-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
+
+            <div className="mx-auto max-w-4xl px-6 py-16 text-center sm:py-20">
+
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-100 dark:bg-sky-500/15">
+                    <span className="text-2xl text-sky-600 dark:text-sky-400">
+                        ?
+                    </span>
+                </div>
+
+                <h2 className="mt-5 text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">
+                    Still have questions?
+                </h2>
+
+                <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-gray-500 dark:text-slate-400">
+                    If you cannot find the answer you are looking
+                    for, you can get in touch with the LENEX team.
+                </p>
+
+                <Link
+                    to="/#contact"
+                    className="mt-7 inline-flex items-center rounded-xl bg-sky-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-700 hover:shadow-lg hover:shadow-sky-100"
+                >
+                    Contact LENEX
+                    <span className="ml-2 text-lg">→</span>
+                </Link>
+
+            </div>
+
+        </section>
+
+        {/* Footer */}
+        <footer className="bg-slate-950">
+
+            <div className="mx-auto max-w-7xl px-6 py-10">
+
+                <div className="flex flex-col items-center justify-between gap-5 text-center sm:flex-row sm:text-left">
+
+                    <Link to="/" className="flex items-center gap-3">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-600">
+                            <span className="font-bold text-white">L</span>
+                        </div>
+
+                        <div>
+                            <p className="font-bold text-white">LENEX</p>
+                            <p className="text-[10px] text-slate-500">
+                                Smarter credit, Better business
+                            </p>
+                        </div>
                     </Link>
 
-                </div>
-
-            </section>
-
-
-            {/* Footer */}
-            <footer className="bg-slate-950">
-
-                <div className="mx-auto max-w-7xl px-6 py-10">
-
-                    <div className="flex flex-col items-center justify-between gap-5 text-center sm:flex-row sm:text-left">
-
-                        <Link
-                            to="/"
-                            className="flex items-center gap-3"
-                        >
-                            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-600">
-                                <span className="font-bold text-white">
-                                    L
-                                </span>
-                            </div>
-
-                            <div>
-                                <p className="font-bold text-white">
-                                    LENEX
-                                </p>
-
-                                <p className="text-[10px] text-slate-500">
-                                    Smarter credit, Better business
-                                </p>
-                            </div>
-                        </Link>
-
-                        <p className="text-xs text-slate-500">
-                            © {new Date().getFullYear()} LENEX.
-                            All rights reserved.
-                        </p>
-
-                    </div>
+                    <p className="text-xs text-slate-500">
+                        © {new Date().getFullYear()} LENEX.
+                        All rights reserved.
+                    </p>
 
                 </div>
 
-            </footer>
+            </div>
 
-        </div>
-    );
+        </footer>
+
+    </div>
+);
 }
 
 export default FAQ;

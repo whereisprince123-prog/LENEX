@@ -62,7 +62,7 @@ const Settings = () => {
     "Your business";
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
+    <div className="lenex-settings mx-auto max-w-4xl space-y-6">
       <div>
         <div className="flex items-center gap-2 text-sky-600">
           <SettingsIcon size={20} />

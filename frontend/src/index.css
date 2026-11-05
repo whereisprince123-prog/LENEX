@@ -101,7 +101,7 @@ html:not(.dark) {
     }
 }
 
-/* 
+
 @media print {
     body * {
         visibility: hidden;
@@ -127,4 +127,568 @@ html:not(.dark) {
         color: black !important;
         background: white !important;
     }
-} */
+}
+
+
+/* =========================================
+   LENEX DEBTS PAGE - DARK MODE
+========================================= */
+
+.dark .lenex-debts {
+    color: #e2e8f0;
+}
+
+/* Main cards and panels */
+.dark .lenex-debts .bg-white {
+    background-color: #0f172a !important;
+}
+
+.dark .lenex-debts .bg-gray-50,
+.dark .lenex-debts .bg-gray-50\/70,
+.dark .lenex-debts .bg-gray-50\/70 {
+    background-color: #1e293b !important;
+}
+
+/* Borders */
+.dark .lenex-debts .border-gray-100,
+.dark .lenex-debts .border-gray-200 {
+    border-color: #334155 !important;
+}
+
+/* Headings and main text */
+.dark .lenex-debts .text-gray-900 {
+    color: #f8fafc !important;
+}
+
+.dark .lenex-debts .text-gray-800 {
+    color: #e2e8f0 !important;
+}
+
+.dark .lenex-debts .text-gray-700 {
+    color: #cbd5e1 !important;
+}
+
+.dark .lenex-debts .text-gray-600,
+.dark .lenex-debts .text-gray-500 {
+    color: #94a3b8 !important;
+}
+
+.dark .lenex-debts .text-gray-400 {
+    color: #64748b !important;
+}
+
+/* Search fields and form controls */
+.dark .lenex-debts input,
+.dark .lenex-debts select,
+.dark .lenex-debts textarea {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark .lenex-debts input::placeholder,
+.dark .lenex-debts textarea::placeholder {
+    color: #64748b;
+}
+
+.dark .lenex-debts input:focus,
+.dark .lenex-debts select:focus,
+.dark .lenex-debts textarea:focus {
+    border-color: #0ea5e9;
+    background-color: #1e293b;
+}
+
+/* Dropdown options */
+.dark .lenex-debts option {
+    background-color: #1e293b;
+    color: #f1f5f9;
+}
+
+/* Table */
+.dark .lenex-debts thead {
+    background-color: #1e293b;
+}
+
+.dark .lenex-debts tbody tr {
+    border-color: #334155;
+}
+
+.dark .lenex-debts tbody tr:hover {
+    background-color: #1e293b;
+}
+
+/* Hover buttons */
+.dark .lenex-debts button:hover.bg-gray-50,
+.dark .lenex-debts button:hover.bg-gray-100 {
+    background-color: #334155 !important;
+}
+
+.dark .lenex-debts button:hover.text-gray-700 {
+    color: #f8fafc !important;
+}
+
+/* Modal backgrounds */
+.dark .lenex-debts .shadow-2xl {
+    border: 1px solid #334155;
+}
+
+/* Modal separators */
+.dark .lenex-debts .border-t,
+.dark .lenex-debts .border-b {
+    border-color: #334155;
+}
+
+/* Keep payment status colors readable */
+.dark .lenex-debts .bg-green-50 {
+    background-color: rgb(20 83 45 / 25%) !important;
+}
+
+.dark .lenex-debts .bg-red-50 {
+    background-color: rgb(127 29 29 / 25%) !important;
+}
+
+.dark .lenex-debts .bg-yellow-50 {
+    background-color: rgb(113 63 18 / 25%) !important;
+}
+
+.dark .lenex-debts .bg-sky-50 {
+    background-color: rgb(7 89 133 / 25%) !important;
+}
+
+/* Preserve status badge contrast */
+.dark .lenex-debts .bg-green-100 {
+    background-color: rgb(22 101 52 / 35%) !important;
+    color: #86efac !important;
+}
+
+.dark .lenex-debts .bg-red-100 {
+    background-color: rgb(153 27 27 / 35%) !important;
+    color: #fca5a5 !important;
+}
+
+.dark .lenex-debts .bg-yellow-100 {
+    background-color: rgb(133 77 14 / 35%) !important;
+    color: #fde68a !important;
+}
+
+.dark .lenex-debts .bg-sky-100 {
+    background-color: rgb(3 105 161 / 35%) !important;
+    color: #7dd3fc !important;
+}
+
+.dark .lenex-debts .bg-gray-100 {
+    background-color: #334155 !important;
+    color: #cbd5e1 !important;
+}
+
+/* Payment summary panels */
+.dark .lenex-debts .border-green-100 {
+    border-color: rgb(22 101 52 / 40%) !important;
+}
+
+.dark .lenex-debts .border-yellow-100 {
+    border-color: rgb(133 77 14 / 40%) !important;
+}
+
+.dark .lenex-debts .border-sky-100 {
+    border-color: rgb(3 105 161 / 40%) !important;
+}
+
+/* Smooth theme transitions */
+.lenex-debts > div,
+.lenex-debts input,
+.lenex-debts select,
+.lenex-debts textarea,
+.lenex-debts button {
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-duration: 200ms;
+}
+
+
+
+/* LENEX Overdue page - Dark Mode */
+.dark .lenex-overdue .bg-white {
+  background-color: #0f172a;
+}
+
+.dark .lenex-overdue .bg-gray-50 {
+  background-color: #1e293b;
+}
+
+.dark .lenex-overdue .bg-gray-100 {
+  background-color: #334155;
+}
+
+.dark .lenex-overdue .border-gray-100,
+.dark .lenex-overdue .border-gray-200 {
+  border-color: #334155;
+}
+
+.dark .lenex-overdue .text-gray-900 {
+  color: #f8fafc;
+}
+
+.dark .lenex-overdue .text-gray-800 {
+  color: #e2e8f0;
+}
+
+.dark .lenex-overdue .text-gray-600 {
+  color: #cbd5e1;
+}
+
+.dark .lenex-overdue .text-gray-500 {
+  color: #94a3b8;
+}
+
+.dark .lenex-overdue .text-gray-400,
+.dark .lenex-overdue .text-gray-300 {
+  color: #64748b;
+}
+
+.dark .lenex-overdue input {
+  background-color: #1e293b;
+  border-color: #475569;
+  color: #f8fafc;
+}
+
+.dark .lenex-overdue input::placeholder {
+  color: #94a3b8;
+}
+
+.dark .lenex-overdue input:focus {
+  border-color: #38bdf8;
+}
+
+.dark .lenex-overdue .divide-gray-100 > :not(:last-child) {
+  border-color: #334155;
+}
+
+.dark .lenex-overdue tr:hover {
+  background-color: #1e293b;
+}
+
+/* Overdue status badge */
+.dark .lenex-overdue .bg-amber-50 {
+  background-color: rgb(120 53 15 / 25%);
+}
+
+.dark .lenex-overdue .text-amber-700 {
+  color: #fbbf24;
+}
+
+.dark .lenex-overdue .text-amber-600 {
+  color: #fbbf24;
+}
+
+/* Error message */
+.dark .lenex-overdue .bg-red-50 {
+  background-color: rgb(127 29 29 / 25%);
+}
+
+.dark .lenex-overdue .text-red-600 {
+  color: #fca5a5;
+}
+
+/* Refresh button */
+.dark .lenex-overdue button {
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+.dark .lenex-overdue button:hover {
+  background-color: #1e293b;
+}
+
+/* LENEX Paid Debts page - Dark Mode */
+.dark .lenex-paid-debts .bg-white {
+  background-color: #0f172a;
+}
+
+.dark .lenex-paid-debts .bg-gray-50 {
+  background-color: #1e293b;
+}
+
+.dark .lenex-paid-debts .border-gray-100,
+.dark .lenex-paid-debts .border-gray-200 {
+  border-color: #334155;
+}
+
+.dark .lenex-paid-debts .text-gray-900 {
+  color: #f8fafc;
+}
+
+.dark .lenex-paid-debts .text-gray-800 {
+  color: #e2e8f0;
+}
+
+.dark .lenex-paid-debts .text-gray-600 {
+  color: #cbd5e1;
+}
+
+.dark .lenex-paid-debts .text-gray-500 {
+  color: #94a3b8;
+}
+
+.dark .lenex-paid-debts .text-gray-400,
+.dark .lenex-paid-debts .text-gray-300 {
+  color: #64748b;
+}
+
+/* Search input */
+.dark .lenex-paid-debts input {
+  background-color: #1e293b;
+  border-color: #475569;
+  color: #f8fafc;
+}
+
+.dark .lenex-paid-debts input::placeholder {
+  color: #94a3b8;
+}
+
+.dark .lenex-paid-debts input:focus {
+  border-color: #38bdf8;
+}
+
+/* Table */
+.dark .lenex-paid-debts .divide-gray-100 > :not(:last-child) {
+  border-color: #334155;
+}
+
+.dark .lenex-paid-debts tr:hover {
+  background-color: #1e293b;
+}
+
+/* Paid status badge */
+.dark .lenex-paid-debts .bg-green-50 {
+  background-color: rgb(20 83 45 / 30%);
+}
+
+.dark .lenex-paid-debts .text-green-700,
+.dark .lenex-paid-debts .text-green-600 {
+  color: #4ade80;
+}
+
+/* Error message */
+.dark .lenex-paid-debts .bg-red-50 {
+  background-color: rgb(127 29 29 / 25%);
+}
+
+.dark .lenex-paid-debts .text-red-600 {
+  color: #fca5a5;
+}
+
+/* Refresh button */
+.dark .lenex-paid-debts button {
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+.dark .lenex-paid-debts button:hover {
+  background-color: #1e293b;
+}
+
+
+/* ==================================
+   LENEX ACTIVITY - DARK MODE
+================================== */
+
+.dark .lenex-activity {
+  background-color: #020617;
+}
+
+.dark .lenex-activity .bg-white {
+  background-color: #0f172a;
+}
+
+.dark .lenex-activity .bg-gray-50,
+.dark .lenex-activity .bg-gray-100 {
+  background-color: #1e293b;
+}
+
+.dark .lenex-activity .border-gray-100,
+.dark .lenex-activity .border-gray-200 {
+  border-color: #334155;
+}
+
+.dark .lenex-activity .divide-gray-100 > :not(:last-child) {
+  border-color: #334155;
+}
+
+/* Text */
+.dark .lenex-activity .text-gray-900 {
+  color: #f8fafc;
+}
+
+.dark .lenex-activity .text-gray-700 {
+  color: #cbd5e1;
+}
+
+.dark .lenex-activity .text-gray-600 {
+  color: #cbd5e1;
+}
+
+.dark .lenex-activity .text-gray-500 {
+  color: #94a3b8;
+}
+
+.dark .lenex-activity .text-gray-400 {
+  color: #64748b;
+}
+
+/* Refresh button */
+.dark .lenex-activity button.border-gray-200 {
+  background-color: #0f172a;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+.dark .lenex-activity button.border-gray-200:hover {
+  background-color: #1e293b;
+}
+
+/* Activity icon backgrounds */
+.dark .lenex-activity .bg-sky-100 {
+  background-color: rgb(7 89 133 / 30%);
+}
+
+.dark .lenex-activity .text-sky-700 {
+  color: #38bdf8;
+}
+
+.dark .lenex-activity .bg-red-50 {
+  background-color: rgb(127 29 29 / 25%);
+}
+
+.dark .lenex-activity .text-red-600 {
+  color: #f87171;
+}
+
+.dark .lenex-activity .bg-amber-50 {
+  background-color: rgb(120 53 15 / 25%);
+}
+
+.dark .lenex-activity .text-amber-600 {
+  color: #fbbf24;
+}
+
+.dark .lenex-activity .bg-green-50 {
+  background-color: rgb(20 83 45 / 30%);
+}
+
+.dark .lenex-activity .text-green-600 {
+  color: #4ade80;
+}
+
+.dark .lenex-activity .bg-violet-50 {
+  background-color: rgb(91 33 182 / 25%);
+}
+
+.dark .lenex-activity .text-violet-600 {
+  color: #c4b5fd;
+}
+
+/* Activity entity badge */
+.dark .lenex-activity .rounded-full.bg-gray-100 {
+  background-color: #334155;
+  color: #cbd5e1;
+}
+
+/* Error message */
+.dark .lenex-activity .border-red-200 {
+  border-color: #7f1d1d;
+}
+
+.dark .lenex-activity .bg-red-50 {
+  background-color: rgb(127 29 29 / 25%);
+}
+
+.dark .lenex-activity .text-red-700 {
+  color: #fca5a5;
+}
+
+/* Hover effect on activity entries */
+.dark .lenex-activity .hover\:bg-gray-50:hover {
+  background-color: #1e293b;
+}
+
+/* ==================================
+   LENEX SETTINGS - DARK MODE
+================================== */
+
+.dark .lenex-settings .bg-white {
+  background-color: #0f172a;
+}
+
+.dark .lenex-settings .bg-gray-50 {
+  background-color: #1e293b;
+}
+
+.dark .lenex-settings .bg-gray-100 {
+  background-color: #334155;
+}
+
+.dark .lenex-settings .border-gray-100,
+.dark .lenex-settings .border-gray-200 {
+  border-color: #334155;
+}
+
+.dark .lenex-settings .divide-gray-100 > :not(:last-child) {
+  border-color: #334155;
+}
+
+/* Text */
+.dark .lenex-settings .text-gray-900 {
+  color: #f8fafc;
+}
+
+.dark .lenex-settings .text-gray-700 {
+  color: #cbd5e1;
+}
+
+.dark .lenex-settings .text-gray-600 {
+  color: #cbd5e1;
+}
+
+.dark .lenex-settings .text-gray-500 {
+  color: #94a3b8;
+}
+
+/* Business profile icon */
+.dark .lenex-settings .bg-sky-50 {
+  background-color: rgb(7 89 133 / 25%);
+}
+
+.dark .lenex-settings .text-sky-600 {
+  color: #38bdf8;
+}
+
+/* Read-only business name input */
+.dark .lenex-settings input {
+  background-color: #1e293b;
+  border-color: #475569;
+  color: #f8fafc;
+}
+
+/* Preference switches */
+.dark .lenex-settings button[role="switch"] {
+  outline-color: #475569;
+}
+
+.dark .lenex-settings button[role="switch"].bg-gray-300 {
+  background-color: #475569;
+}
+
+/* Save button */
+.dark .lenex-settings button.bg-sky-500 {
+  background-color: #0284c7;
+  color: #ffffff;
+}
+
+.dark .lenex-settings button.bg-sky-500:hover {
+  background-color: #0369a1;
+}
+
+/* Saved confirmation */
+.dark .lenex-settings .text-green-600 {
+  color: #4ade80;
+}
