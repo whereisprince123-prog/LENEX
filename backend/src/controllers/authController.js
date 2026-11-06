@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../config/db");
-
+const crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
 
 const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -610,6 +611,235 @@ const getAdminProfile = async (req, res) => {
     }
 };
 
+
+// =====================================
+// FORGOT BUSINESS PASSWORD
+// =====================================
+
+const forgotBusinessPassword = async (req, res) => {
+    try {
+        const email = req.body.email?.trim().toLowerCase();
+
+        if (!email || !isValidEmail(email)) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter a valid email address"
+            });
+        }
+
+        // Find the business user
+        const [users] = await db.query(
+            `SELECT user_id, full_name, email
+             FROM business_users
+             WHERE LOWER(email) = ?
+             AND is_active = TRUE
+             LIMIT 1`,
+            [email]
+        );
+
+        // Always return a generic response for unknown emails
+        const genericMessage =
+            "If an active account exists with that email, password reset instructions will be sent.";
+
+        if (users.length === 0) {
+            return res.status(200).json({
+                success: true,
+                message: genericMessage
+            });
+        }
+
+        const user = users[0];
+
+        // Generate a secure random token
+        const resetToken = crypto.randomBytes(32).toString("hex");
+
+        // Store only the SHA-256 hash
+        const tokenHash = crypto
+            .createHash("sha256")
+            .update(resetToken)
+            .digest("hex");
+
+        // Remove previous unused reset tokens for this user
+        await db.query(
+            `DELETE FROM password_reset_tokens
+             WHERE user_id = ? AND used_at IS NULL`,
+            [user.user_id]
+        );
+
+        // Save the token with a 15-minute expiry
+        await db.query(
+            `INSERT INTO password_reset_tokens
+             (user_id, token_hash, expires_at)
+             VALUES (?, ?, DATE_ADD(UTC_TIMESTAMP(), INTERVAL 15 MINUTE))`,
+            [user.user_id, tokenHash]
+        );
+
+        // Build the frontend reset link
+        const resetLink =
+            `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+
+        // Send the reset email
+        await sendEmail({
+            to: user.email,
+            subject: "Reset your LENEX password",
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+                    <h2>Password Reset Request</h2>
+
+                    <p>Hello ${user.full_name},</p>
+
+                    <p>
+                        We received a request to reset your LENEX account password.
+                    </p>
+
+                    <p>
+                        Click the button below to create a new password.
+                    </p>
+
+                    <a href="${resetLink}"
+                       style="display:inline-block; background:#2563eb; color:white;
+                       padding:12px 24px; text-decoration:none; border-radius:6px;">
+                        Reset Password
+                    </a>
+
+                    <p>This link expires in 15 minutes and can only be used once.</p>
+
+                    <p>If you did not request this reset, you can ignore this email.</p>
+
+                    <p>LENEX Support Team</p>
+                </div>
+            `
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: genericMessage
+        });
+
+    } catch (error) {
+        console.error("Forgot password error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Unable to process your request. Please try again later."
+        });
+    }
+};
+
+
+// =====================================
+// RESET BUSINESS PASSWORD
+// =====================================
+
+const resetBusinessPassword = async (req, res) => {
+    let connection;
+
+    try {
+        const { token, password } = req.body;
+
+        if (!token || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Reset token and new password are required"
+            });
+        }
+
+        // Apply the same password-strength rules as registration
+        const strongPassword =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,72}$/;
+
+        if (!strongPassword.test(password)) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must contain at least 8 characters, including uppercase, lowercase, a number and a special character"
+            });
+        }
+
+        // Hash the submitted token
+        const tokenHash = crypto
+            .createHash("sha256")
+            .update(token)
+            .digest("hex");
+
+        connection = await db.getConnection();
+        await connection.beginTransaction();
+
+        // Lock the reset record to prevent simultaneous token use
+        const [records] = await connection.query(
+            `SELECT reset_id, user_id
+             FROM password_reset_tokens
+             WHERE token_hash = ?
+             AND used_at IS NULL
+             AND expires_at > UTC_TIMESTAMP()
+             LIMIT 1
+             FOR UPDATE`,
+            [tokenHash]
+        );
+
+        if (records.length === 0) {
+            await connection.rollback();
+
+            return res.status(400).json({
+                success: false,
+                message: "This password reset link is invalid or has expired"
+            });
+        }
+
+        const resetRecord = records[0];
+
+        // Hash the new password
+        const passwordHash = await bcrypt.hash(password, 12);
+
+        // Update the business user's password
+        await connection.query(
+            `UPDATE business_users
+             SET password_hash = ?
+             WHERE user_id = ?`,
+            [passwordHash, resetRecord.user_id]
+        );
+
+        // Mark this token as used
+        await connection.query(
+            `UPDATE password_reset_tokens
+             SET used_at = UTC_TIMESTAMP()
+             WHERE reset_id = ?`,
+            [resetRecord.reset_id]
+        );
+
+        // Invalidate any other outstanding reset links
+        await connection.query(
+            `DELETE FROM password_reset_tokens
+             WHERE user_id = ?
+             AND reset_id != ?`,
+            [resetRecord.user_id, resetRecord.reset_id]
+        );
+
+        await connection.commit();
+
+        return res.status(200).json({
+            success: true,
+            message: "Your password has been reset successfully. Please log in with your new password."
+        });
+
+    } catch (error) {
+        if (connection) {
+            await connection.rollback();
+        }
+
+        console.error("Reset password error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Unable to reset your password. Please try again."
+        });
+
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+};
+
 module.exports = {
     registerBusiness,
     loginAdmin,
@@ -617,5 +847,7 @@ module.exports = {
     logoutBusiness,
     logoutAdmin,
     getBusinessProfile,
-    getAdminProfile
+    getAdminProfile,
+    forgotBusinessPassword,
+    resetBusinessPassword
 };

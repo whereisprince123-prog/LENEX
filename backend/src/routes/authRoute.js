@@ -2,7 +2,9 @@ const express = require("express");
 const adminAuth = require("../middlewares/adminAuth.js");
 const {
     businessLoginLimiter,
-    adminLoginLimiter
+    adminLoginLimiter,
+    forgotPasswordLimiter,
+    resetPasswordLimiter
 } = require("../middlewares/authRateLimiter.js");
 const {
     registerBusiness,
@@ -11,7 +13,9 @@ const {
     logoutBusiness,
     logoutAdmin,
     getBusinessProfile,
-    getAdminProfile
+    getAdminProfile,
+    forgotBusinessPassword,
+    resetBusinessPassword
 } = require("../controllers/authController");
 const businessAuth = require("../middlewares/businessAuth.js");
 const router = express.Router();
@@ -32,6 +36,8 @@ router.post("/business/register", registerBusiness);
 router.post("/business/login", businessLoginLimiter, businessLogin);
 router.post("/business/logout", logoutBusiness);
 router.get("/business/me", businessAuth, getBusinessProfile);
+router.post("/business/forgot-password", forgotPasswordLimiter, forgotBusinessPassword);
+router.post("/business/reset-password", resetPasswordLimiter, resetBusinessPassword);
 
 
 module.exports = router;

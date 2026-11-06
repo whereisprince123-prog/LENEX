@@ -4,6 +4,8 @@ import ProtectedRoute from "./ProtectedRoute.jsx";
 import Home from "../pages/public/Home.jsx";
 import Login from "../pages/public/Login.jsx";
 import Register from "../pages/public/Register.jsx";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
 
 import DashboardLayout from "../components/layouts/DashboardLayout.jsx";
 
@@ -44,7 +46,8 @@ const AppRoutes = () => {
 
             
 <Route path="/faq" element={<FAQ />} />
-
+<Route path="/reset-password" element={<ResetPassword />} />
+<Route path="/forgot-password" element={<ForgotPassword />} />
             {/* Protected Business Dashboard */}
 <Route element={<ProtectedRoute />}>
     <Route

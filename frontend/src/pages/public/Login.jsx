@@ -830,7 +830,7 @@ function Login() {
                       maxLength={72}
                       className="h-12 w-full rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 px-4 pr-16 text-sm text-gray-900 dark:text-slate-100 outline-none transition placeholder:text-gray-400 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-4 focus:ring-sky-50"
                     />
-
+                    
                     <button
                       type="button"
                       onClick={() => setShowPassword((prev) => !prev)}
@@ -840,8 +840,16 @@ function Login() {
                       {showPassword ? "Hide" : "Show"}
                     </button>
                   </div>
+                  <div className="mt-2 text-right">
+    <Link
+        to="/forgot-password"
+        className="text-sm font-medium text-sky-600 transition hover:text-sky-700"
+    >
+        Forgot password?
+    </Link>
+</div>
                 </div>
-
+                  
                 <button
                   type="submit"
                   disabled={loading}
