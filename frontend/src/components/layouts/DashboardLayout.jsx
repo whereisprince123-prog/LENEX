@@ -54,6 +54,12 @@ const DashboardLayout = () => {
 
     const ownerEmail = user.email || "";
 
+    const profilePicture =
+    user.profile_picture_url ||
+    user.avatar_url ||
+    user.profile_image ||
+    "";
+
     const businessName =
         business.business_name ||
         business.name ||
@@ -199,24 +205,52 @@ const DashboardLayout = () => {
                 {/* PROFILE + LOGOUT */}
                 <div className="border-t border-gray-100 p-4 dark:border-slate-800">
 
-                    {/* PROFILE */}
-                    <div className="mb-2 rounded-xl p-2.5">
-                        <div className="flex items-center gap-3">
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-100 text-sm font-bold text-sky-600 dark:bg-sky-500/15 dark:text-sky-400">
-                                {initials}
-                            </div>
+                   {/* CLICKABLE BUSINESS OWNER PROFILE */}
+<NavLink
+    to="/dashboard/settings"
+    onClick={() => setMobileOpen(false)}
+    aria-label="Open profile and account settings"
+    className={({ isActive }) => `
+        group mb-2 block rounded-xl p-2.5
+        transition-all duration-200
+        ${
+            isActive
+                ? "bg-sky-50 dark:bg-sky-500/10"
+                : "hover:bg-gray-50 dark:hover:bg-slate-800"
+        }
+    `}
+>
+    <div className="flex items-center gap-3">
+        {/* PROFILE PICTURE */}
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-sky-100 text-sm font-bold text-sky-600 dark:bg-sky-500/15 dark:text-sky-400">
+            {profilePicture ? (
+                <img
+                    src={profilePicture}
+                    alt={`${ownerName}'s profile`}
+                    className="h-full w-full object-cover"
+                />
+            ) : (
+                initials
+            )}
+        </div>
 
-                            <div className="min-w-0 flex-1">
-                                <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
-                                    {ownerName}
-                                </p>
+        {/* OWNER DETAILS */}
+        <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                {ownerName}
+            </p>
 
-                                <p className="truncate text-xs text-gray-400 dark:text-slate-500">
-                                    {ownerEmail}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+            <p className="truncate text-xs text-gray-400 dark:text-slate-500">
+                {ownerEmail}
+            </p>
+        </div>
+
+        <ChevronRight
+            size={16}
+            className="text-gray-400 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100 dark:text-slate-500"
+        />
+    </div>
+</NavLink>
 
                     {/* LOGOUT */}
                     <button
