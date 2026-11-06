@@ -4,8 +4,8 @@ import ProtectedRoute from "./ProtectedRoute.jsx";
 import Home from "../pages/public/Home.jsx";
 import Login from "../pages/public/Login.jsx";
 import Register from "../pages/public/Register.jsx";
-import ResetPassword from "./pages/ResetPassword";
-import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword.jsx";
+import ForgotPassword from "../pages/ForgotPassword.jsx";
 
 import DashboardLayout from "../components/layouts/DashboardLayout.jsx";
 
