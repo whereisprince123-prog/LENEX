@@ -19,7 +19,7 @@ const reportRoutes = require("./routes/reportRoutes.js");
 
 const app = express();
 
-
+app.set("trust proxy", 1);
 // =====================================================
 // MIDDLEWARE
 // =====================================================

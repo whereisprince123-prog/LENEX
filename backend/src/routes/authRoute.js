@@ -1,6 +1,10 @@
 const express = require("express");
 const adminAuth = require("../middlewares/adminAuth.js");
 const {
+    businessLoginLimiter,
+    adminLoginLimiter
+} = require("../middlewares/authRateLimiter.js");
+const {
     registerBusiness,
     loginAdmin,
     businessLogin,
@@ -17,7 +21,7 @@ const router = express.Router();
 // ADMIN AUTH
 // ================================
 
-router.post("/admin/login", loginAdmin);
+router.post("/admin/login", adminLoginLimiter, loginAdmin);
 router.post("/admin/logout", logoutAdmin);
 router.get("/admin/me", adminAuth, getAdminProfile);
 // ================================
@@ -25,7 +29,7 @@ router.get("/admin/me", adminAuth, getAdminProfile);
 // ================================
 
 router.post("/business/register", registerBusiness);
-router.post("/business/login", businessLogin);
+router.post("/business/login", businessLoginLimiter, businessLogin);
 router.post("/business/logout", logoutBusiness);
 router.get("/business/me", businessAuth, getBusinessProfile);
 
