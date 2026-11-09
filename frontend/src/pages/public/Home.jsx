@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 function Home() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [state, handleSubmit] = useForm("maeyrkaj");
 
   const [contactInfo, setContactInfo] = useState({
@@ -1196,33 +1196,78 @@ function Home() {
             </div>
           </div>
 
-          {/* CONTACT STRIP */}
-          <div className="border-t border-white/10 py-8">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
-                {contactInfo.support_email && (
-                  <a
-                    href={`mailto:${contactInfo.support_email}`}
-                    className="flex items-center gap-2 text-sm text-slate-400 transition hover:text-sky-400"
-                  >
-                    <Mail size={16} />
-                    {contactInfo.support_email}
-                  </a>
-                )}
+      {/* CONTACT STRIP */}
+<div className="border-t border-white/10 py-8">
+  <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
 
-                <span className="flex items-center gap-2 text-sm text-slate-400">
-                  <MapPin size={16} />
-                  {[contactInfo.city, contactInfo.country]
-                    .filter(Boolean)
-                    .join(", ")}
-                </span>
-              </div>
+    {/* Contact details */}
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
+      {contactInfo.support_email && (
+        <a
+          href={`mailto:${contactInfo.support_email}`}
+          className="flex items-center gap-2 text-sm text-slate-400 transition hover:text-sky-400"
+        >
+          <Mail size={16} />
+          {contactInfo.support_email}
+        </a>
+      )}
 
-              <p className="text-sm text-slate-500">
-                © {new Date().getFullYear()} LENEX. {t("allRightsReserved")}
-              </p>
-            </div>
-          </div>
+      <span className="flex items-center gap-2 text-sm text-slate-400">
+        <MapPin size={16} />
+        {[contactInfo.city, contactInfo.country]
+          .filter(Boolean)
+          .join(", ")}
+      </span>
+    </div>
+
+    {/* Language selector */}
+    <div className="flex items-center gap-3">
+      <label
+        htmlFor="footer-language"
+        className="text-sm font-medium text-slate-300"
+      >
+        {t("language")}
+      </label>
+
+      <div className="relative">
+        <select
+          id="footer-language"
+          value={i18n.resolvedLanguage?.split("-")[0] || "en"}
+          onChange={(e) => {
+            const selectedLanguage = e.target.value;
+
+            i18n.changeLanguage(selectedLanguage);
+            localStorage.setItem("lenex_language", selectedLanguage);
+          }}
+          className="min-w-[150px] cursor-pointer appearance-none rounded-xl border border-white/15 bg-slate-900 px-4 py-3 pr-10 text-sm font-semibold text-white outline-none transition hover:border-sky-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-500/30"
+        >
+          <option value="en">🇬🇧 English</option>
+          <option value="rw">🇷🇼 Kinyarwanda</option>
+          <option value="fr">🇫🇷 Français</option>
+        </select>
+
+        <svg
+          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path
+            d="m7 10 5 5 5-5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+
+    {/* Copyright */}
+    <p className="text-sm text-slate-500">
+      © {new Date().getFullYear()} LENEX. {t("allRightsReserved")}
+    </p>
+  </div>
+</div>
 
           {/* BOTTOM BRAND LINE */}
           <div className="relative flex items-center justify-center pb-8 pt-2">
@@ -1298,7 +1343,7 @@ function Step({ number, title, description }) {
 
 //Debt Preview
 function DebtPreview({ name, description, amount, status }) {
-  const { t } = useTranslation();
+  const { t, i18n} = useTranslation();
 
   const statusLabels = {
     OVERDUE: t("statusOverdue"),
