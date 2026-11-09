@@ -40,7 +40,7 @@ const Debts = () => {
     const [paymentAmount, setPaymentAmount] = useState("");
     const [paymentNotes, setPaymentNotes] = useState("");
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     
 
