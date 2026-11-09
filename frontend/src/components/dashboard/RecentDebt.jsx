@@ -1,4 +1,6 @@
 
+import { useTranslation } from "react-i18next";
+
 const formatMoney = (amount) => {
     return new Intl.NumberFormat("en-RW").format(amount) + " RWF";
 };
@@ -16,7 +18,37 @@ const getStatusStyle = (status) => {
     }
 };
 
-const RecentDebts = ({ debts }) => {
+const RecentDebts = ({ debts = [] }) => {
+    const { t, i18n } = useTranslation();
+
+    const formatDate = (date) => {
+        const locale =
+            i18n.language === "rw"
+                ? "rw-RW"
+                : i18n.language === "fr"
+                ? "fr-FR"
+                : "en-RW";
+
+        return new Date(date).toLocaleDateString(locale);
+    };
+
+    const translateStatus = (status) => {
+        switch (status) {
+            case "PAID":
+                return t("statusPaid");
+            case "OVERDUE":
+                return t("statusOverdue");
+            case "UNPAID":
+                return t("statusUnpaid");
+            case "PARTIALLY_PAID":
+                return t("statusPartiallyPaid");
+            case "CANCELLED":
+                return t("statusCancelled");
+            default:
+                return status;
+        }
+    };
+
     return (
         <div className="rounded-2xl border border-gray-200 bg-white shadow-sm transition-colors dark:border-slate-800 dark:bg-slate-900">
 
@@ -24,11 +56,11 @@ const RecentDebts = ({ debts }) => {
             <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4 dark:border-slate-800">
                 <div>
                     <h2 className="font-semibold text-gray-900 dark:text-white">
-                        Recent Debts
+                        {t("recentDebts")}
                     </h2>
 
                     <p className="text-sm text-gray-500 dark:text-slate-400">
-                        Latest customer debts
+                        {t("latestCustomerDebts")}
                     </p>
                 </div>
 
@@ -36,7 +68,7 @@ const RecentDebts = ({ debts }) => {
                     type="button"
                     className="text-sm font-medium text-sky-600 transition hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300"
                 >
-                    View all
+                    {t("viewAll")}
                 </button>
             </div>
 
@@ -47,19 +79,19 @@ const RecentDebts = ({ debts }) => {
                     <thead>
                         <tr className="border-b border-gray-100 text-left dark:border-slate-800">
                             <th className="px-5 py-3 text-xs font-semibold uppercase text-gray-400 dark:text-slate-500">
-                                Customer
+                                {t("customer")}
                             </th>
 
                             <th className="px-5 py-3 text-xs font-semibold uppercase text-gray-400 dark:text-slate-500">
-                                Amount
+                                {t("amount")}
                             </th>
 
                             <th className="px-5 py-3 text-xs font-semibold uppercase text-gray-400 dark:text-slate-500">
-                                Due Date
+                                {t("dueDate")}
                             </th>
 
                             <th className="px-5 py-3 text-xs font-semibold uppercase text-gray-400 dark:text-slate-500">
-                                Status
+                                {t("status")}
                             </th>
                         </tr>
                     </thead>
@@ -71,7 +103,7 @@ const RecentDebts = ({ debts }) => {
                                     colSpan="4"
                                     className="px-5 py-10 text-center text-sm text-gray-500 dark:text-slate-400"
                                 >
-                                    No debts recorded yet.
+                                    {t("noDebtsRecordedYet")}
                                 </td>
                             </tr>
                         ) : (
@@ -87,7 +119,7 @@ const RecentDebts = ({ debts }) => {
                                             </p>
 
                                             <p className="text-xs text-gray-500 dark:text-slate-400">
-                                                {debt.phone_number}
+                                                {debt.phone_number || t("noPhone")}
                                             </p>
                                         </div>
                                     </td>
@@ -97,9 +129,7 @@ const RecentDebts = ({ debts }) => {
                                     </td>
 
                                     <td className="px-5 py-4 text-sm text-gray-600 dark:text-slate-300">
-                                        {new Date(
-                                            debt.due_date
-                                        ).toLocaleDateString()}
+                                        {formatDate(debt.due_date)}
                                     </td>
 
                                     <td className="px-5 py-4">
@@ -108,7 +138,7 @@ const RecentDebts = ({ debts }) => {
                                                 debt.status
                                             )}`}
                                         >
-                                            {debt.status}
+                                            {translateStatus(debt.status)}
                                         </span>
                                     </td>
                                 </tr>

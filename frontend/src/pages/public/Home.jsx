@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { useForm, ValidationError } from "@formspree/react";
+import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import {
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 
 function Home() {
+  const { t } = useTranslation();
   const [state, handleSubmit] = useForm("maeyrkaj");
 
 const [contactInfo, setContactInfo] = useState({

@@ -56,7 +56,19 @@
   "registeredCustomerCount_one": "{{count}} registered customer",
   "registeredCustomerCount_other": "{{count}} registered customers",
   "closeModal": "Close modal",
+  "unableToLoadDebts": "Unable to load debts.",
+  "unableToSaveDebt": "Unable to save debt.",
+  "unableToCancelDebt": "Unable to cancel debt.",
+  "validPaymentAmountRequired": "Please enter a valid payment amount.",
+  "paymentExceedsBalance": "Payment cannot be greater than the remaining balance of {{amount}} RWF.",
+  "failedToRecordPayment": "Failed to record payment.",
+  "examplePaymentAmount": "e.g. 30000",
+  "noOverdueDebts": "No overdue debts.",
 
+  "recentDebts": "Recent Debts",
+  "latestCustomerDebts": "Latest customer debts",
+  "viewAll": "View all",
+  "noDebtsRecordedYet": "No debts recorded yet.",
 
 
    "customerManagement": "Customer Management",

@@ -1,20 +1,32 @@
 
+import { useTranslation } from "react-i18next";
+
 const formatMoney = (amount) => {
     return new Intl.NumberFormat("en-RW").format(amount) + " RWF";
 };
 
-const OverdueDebts = ({ debts }) => {
+const OverdueDebts = ({ debts = [] }) => {
+    const { t, i18n } = useTranslation();
+
+    const formatDate = (date) => {
+        return new Date(date).toLocaleDateString(
+            i18n.language === "rw" ? "rw-RW" :
+            i18n.language === "fr" ? "fr-FR" :
+            "en-RW"
+        );
+    };
+
     return (
         <div className="rounded-2xl border border-gray-200 bg-white shadow-sm transition-colors dark:border-slate-800 dark:bg-slate-900">
 
             {/* HEADER */}
             <div className="border-b border-gray-100 px-5 py-4 dark:border-slate-800">
                 <h2 className="font-semibold text-gray-900 dark:text-white">
-                    Overdue Debts
+                    {t("overdueDebts")}
                 </h2>
 
                 <p className="text-sm text-gray-500 dark:text-slate-400">
-                    Customers who have passed their due date
+                    {t("overdueDebtsDescription")}
                 </p>
             </div>
 
@@ -22,7 +34,7 @@ const OverdueDebts = ({ debts }) => {
             <div className="divide-y divide-gray-100 dark:divide-slate-800">
                 {debts.length === 0 ? (
                     <div className="px-5 py-10 text-center text-sm text-gray-500 dark:text-slate-400">
-                        🎉 No overdue debts.
+                        🎉 {t("noOverdueDebts")}
                     </div>
                 ) : (
                     debts.map((debt) => (
@@ -36,10 +48,8 @@ const OverdueDebts = ({ debts }) => {
                                 </p>
 
                                 <p className="text-xs text-gray-500 dark:text-slate-400">
-                                    Due:{" "}
-                                    {new Date(
-                                        debt.due_date
-                                    ).toLocaleDateString()}
+                                    {t("dueDate")}:{" "}
+                                    {formatDate(debt.due_date)}
                                 </p>
                             </div>
 
@@ -49,7 +59,7 @@ const OverdueDebts = ({ debts }) => {
                                 </p>
 
                                 <p className="text-xs text-red-500 dark:text-red-400">
-                                    Overdue
+                                    {t("statusOverdue")}
                                 </p>
                             </div>
                         </div>

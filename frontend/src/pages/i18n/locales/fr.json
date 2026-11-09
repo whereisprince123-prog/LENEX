@@ -173,8 +173,19 @@
   "noPaidDebtsFound": "Aucune dette payée trouvée",
   "paidDebtsEmptyDescription": "Les dettes entièrement réglées apparaîtront ici.",
   "paidDate": "Date de paiement",
-
-
+  "unableToLoadDebts": "Impossible de charger les dettes.",
+  "unableToSaveDebt": "Impossible d'enregistrer la dette.",
+  "unableToCancelDebt": "Impossible d'annuler la dette.",
+  "validPaymentAmountRequired": "Veuillez saisir un montant de paiement valide.",
+  "paymentExceedsBalance": "Le paiement ne peut pas dépasser le solde restant de {{amount}} RWF.",
+  "failedToRecordPayment": "Impossible d'enregistrer le paiement.",
+  "examplePaymentAmount": "Ex. : 30000",
+  "noOverdueDebts": "Aucune dette en retard.",
+ 
+  "recentDebts": "Dettes récentes",
+  "latestCustomerDebts": "Dernières dettes des clients",
+  "viewAll": "Voir tout",
+  "noDebtsRecordedYet": "Aucune dette enregistrée pour le moment.",
   
   "businessReports": "Rapports commerciaux",
   "businessReportsDescription": "Consultez vos dettes, les paiements reçus et les soldes restants.",
