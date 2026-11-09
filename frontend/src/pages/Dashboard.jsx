@@ -82,8 +82,8 @@ const Dashboard = () => {
         } catch (err) {
             console.error("Dashboard error:", err);
             setError(
-                err.response?.data?.message ||
-                "Couldn't load dashboard data. Please try again."
+err.response?.data?.message ||
+t("dashboardLoadError")
             );
         } finally {
             setLoading(false);
@@ -134,7 +134,7 @@ const Dashboard = () => {
         return (
             <div className="rounded-xl border border-red-200 bg-white p-5 dark:border-red-900/50 dark:bg-slate-900">
                 <p className="font-semibold text-gray-900 dark:text-white">
-                    Unable to load dashboard
+                  {t("unableToLoadDashboard")}
                 </p>
                 <p className="mt-1 text-sm text-gray-500 dark:text-slate-400">
                     {error}
@@ -143,7 +143,7 @@ const Dashboard = () => {
                     onClick={() => loadDashboard()}
                     className="mt-4 rounded-lg bg-sky-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-sky-600"
                 >
-                    Try again
+                    {t("tryAgain")}
                 </button>
             </div>
         );
@@ -172,7 +172,7 @@ const Dashboard = () => {
                     <button
                         onClick={() => loadDashboard(true)}
                         disabled={refreshing}
-                        aria-label="Refresh dashboard"
+                        aria-label={t("refreshDashboard")}
                         className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
                     >
                         <RefreshCw

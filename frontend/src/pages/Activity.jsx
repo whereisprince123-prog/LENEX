@@ -1,5 +1,7 @@
 
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+
 import {
     Activity as ActivityIcon,
     RefreshCw,
@@ -16,6 +18,8 @@ import {
 import api from "../services/api";
 
 const Activity = () => {
+    const { t } = useTranslation();
+
     const [activities, setActivities] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -30,24 +34,24 @@ const Activity = () => {
         } catch (err) {
             setError(
                 err.response?.data?.message ||
-                "Unable to load activity logs."
+                t("unableToLoadActivity")
             );
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [t]);
 
     useEffect(() => {
         fetchActivities();
     }, [fetchActivities]);
 
     const formatDate = (value) => {
-        if (!value) return "Date unavailable";
+        if (!value) return t("dateUnavailable");
 
         const date = new Date(value);
 
         if (Number.isNaN(date.getTime())) {
-            return "Date unavailable";
+            return t("dateUnavailable");
         }
 
         return date.toLocaleString();
@@ -97,6 +101,35 @@ const Activity = () => {
         };
     };
 
+    const translateAction = (action = "ACTIVITY") => {
+        const normalized = action.toUpperCase();
+
+        const actionTranslations = {
+            CUSTOMER_CREATED: "activityCustomerCreated",
+            CUSTOMER_UPDATED: "activityCustomerUpdated",
+            CUSTOMER_DELETED: "activityCustomerDeleted",
+            DEBT_CREATED: "activityDebtCreated",
+            DEBT_UPDATED: "activityDebtUpdated",
+            DEBT_CANCELLED: "activityDebtCancelled",
+            PAYMENT_RECORDED: "activityPaymentRecorded",
+            DEBT_PAID: "activityDebtPaid",
+        };
+
+        return t(actionTranslations[normalized] || "activityAction", {
+            action: normalized.replaceAll("_", " "),
+        });
+    };
+
+    const translateEntity = (entity = "") => {
+        const entities = {
+            CUSTOMER: "customer",
+            DEBT: "debt",
+            PAYMENT: "payment",
+        };
+
+        return t(entities[entity.toUpperCase()] || "entity");
+    };
+
     return (
         <div className="lenex-activity min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
             <div className="mx-auto max-w-6xl">
@@ -110,10 +143,11 @@ const Activity = () => {
 
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900">
-                                Activity Logs
+                                {t("activityLogs")}
                             </h1>
+
                             <p className="mt-1 text-sm text-gray-500">
-                                Monitor important actions in your business.
+                                {t("activityLogsDescription")}
                             </p>
                         </div>
                     </div>
@@ -127,7 +161,7 @@ const Activity = () => {
                             size={16}
                             className={loading ? "animate-spin" : ""}
                         />
-                        Refresh
+                        {t("refresh")}
                     </button>
                 </div>
 
@@ -135,8 +169,9 @@ const Activity = () => {
                 <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                         <p className="text-sm text-gray-500">
-                            Activities loaded
+                            {t("activitiesLoaded")}
                         </p>
+
                         <p className="mt-2 text-3xl font-bold text-gray-900">
                             {activities.length}
                         </p>
@@ -144,12 +179,13 @@ const Activity = () => {
 
                     <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                         <p className="text-sm text-gray-500">
-                            Latest activity
+                            {t("latestActivity")}
                         </p>
+
                         <p className="mt-2 text-base font-semibold text-gray-900">
                             {activities.length > 0
                                 ? formatDate(activities[0].created_at)
-                                : "No activity yet"}
+                                : t("noActivityYet")}
                         </p>
                     </div>
                 </div>
@@ -161,15 +197,16 @@ const Activity = () => {
 
                         <div>
                             <p className="font-semibold">
-                                Could not load activities
+                                {t("couldNotLoadActivities")}
                             </p>
+
                             <p className="mt-1 text-sm">{error}</p>
 
                             <button
                                 onClick={fetchActivities}
                                 className="mt-2 text-sm font-semibold underline"
                             >
-                                Try again
+                                {t("tryAgain")}
                             </button>
                         </div>
                     </div>
@@ -180,17 +217,18 @@ const Activity = () => {
                     <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
                         <div>
                             <h2 className="font-semibold text-gray-900">
-                                Recent activity
+                                {t("recentActivity")}
                             </h2>
+
                             <p className="mt-1 text-xs text-gray-500">
-                                Most recent events appear first.
+                                {t("mostRecentEventsFirst")}
                             </p>
                         </div>
                     </div>
 
                     {loading ? (
                         <div className="p-12 text-center text-sm text-gray-500">
-                            Loading activity logs...
+                            {t("loadingActivityLogs")}
                         </div>
                     ) : activities.length === 0 && !error ? (
                         <div className="px-6 py-14 text-center">
@@ -199,12 +237,11 @@ const Activity = () => {
                             </div>
 
                             <h3 className="font-semibold text-gray-900">
-                                No activity recorded yet
+                                {t("noActivityRecorded")}
                             </h3>
 
                             <p className="mx-auto mt-2 max-w-md text-sm text-gray-500">
-                                Create, update, or delete a customer to test
-                                your activity logging integration.
+                                {t("activityEmptyDescription")}
                             </p>
                         </div>
                     ) : (
@@ -227,12 +264,11 @@ const Activity = () => {
                                         <div className="min-w-0 flex-1">
                                             <div className="flex flex-wrap items-center gap-2">
                                                 <span className="text-sm font-semibold text-gray-900">
-                                                    {(item.action || "ACTIVITY")
-                                                        .replaceAll("_", " ")}
+                                                    {translateAction(item.action)}
                                                 </span>
 
                                                 <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600">
-                                                    {item.entity_type}
+                                                    {translateEntity(item.entity_type)}
                                                     {item.entity_id
                                                         ? ` #${item.entity_id}`
                                                         : ""}

@@ -45,8 +45,8 @@ const Customers = () => {
         } catch (error) {
             console.error("Load customers error:", error);
             setError(
-                error.response?.data?.message ||
-                    t("Unable to load customers.")
+                 error.response?.data?.message ||
+        t("unableToLoadCustomers")
             );
         } finally {
             setLoading(false);
@@ -142,8 +142,8 @@ const Customers = () => {
             console.error("Customer save error:", error);
 
             setError(
-                error.response?.data?.message ||
-                    t("Unable to save customer.")
+                    error.response?.data?.message ||
+        t("unableToSaveCustomer")
             );
         } finally {
             setSaving(false);
@@ -219,16 +219,16 @@ const Customers = () => {
                         </div>
 
                         <span className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-500 dark:text-sky-400">
-                            {t("Customers")}
+                            {t("customers")}
                         </span>
                     </div>
 
                     <h1 className="mt-3 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        {t("Customer Management")}
+                        {t("customerManagement")}
                     </h1>
 
                     <p className="mt-1 text-sm text-gray-500 dark:text-slate-400">
-                        {t("Manage your customers and keep their credit records organized.")}
+                        {t("customerManagementDescription")}
                     </p>
                 </div>
 
@@ -237,7 +237,7 @@ const Customers = () => {
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-600"
                 >
                     <Plus size={18} />
-                    {t("Add Customer")}
+                    {t("addCustomer")}
                 </button>
             </div>
 
@@ -247,7 +247,7 @@ const Customers = () => {
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-gray-500 dark:text-slate-400">
-                                {t("Total Customers")}
+                                {t("totalCustomers")}
                             </p>
 
                             <p className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
@@ -265,7 +265,7 @@ const Customers = () => {
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-gray-500 dark:text-slate-400">
-                                {t("Showing")}
+                                {t("showing")}
                             </p>
 
                             <p className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
@@ -287,14 +287,13 @@ const Customers = () => {
                 <div className="flex flex-col gap-4 border-b border-gray-100 p-5 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h2 className="font-semibold text-gray-900 dark:text-white">
-                            {t("All Customers")}
+                            {t("allCustomers")}
                         </h2>
 
                         <p className="mt-1 text-xs text-gray-400 dark:text-slate-500">
-                            {t("{{count}} registered customer", {
-                                count: customers.length,
-                            })}
-                            {customers.length !== 1 ? t("s") : ""}
+                            {t("registeredCustomerCount", {
+    count: customers.length,
+})}
                         </p>
                     </div>
 
@@ -310,7 +309,7 @@ const Customers = () => {
                             onChange={(event) =>
                                 setSearch(event.target.value)
                             }
-                            placeholder="Search customers..."
+                            placeholder={t("searchCustomers")}
                             className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-sky-500 dark:focus:bg-slate-800 dark:focus:ring-sky-500/10"
                         />
                     </div>
@@ -327,7 +326,7 @@ const Customers = () => {
                             onClick={loadCustomers}
                             className="mt-1 text-sm font-semibold text-red-700 underline dark:text-red-400"
                         >
-                            {t("Try again")}
+                            {t("tryAgain")}
                         </button>
                     </div>
                 )}
@@ -339,7 +338,7 @@ const Customers = () => {
                             <div className="mx-auto h-9 w-9 animate-spin rounded-full border-4 border-gray-200 border-t-sky-500 dark:border-slate-700 dark:border-t-sky-400" />
 
                             <p className="mt-3 text-sm text-gray-500 dark:text-slate-400">
-                                {t("Loading customers...")}
+                                {t("loadingCustomers")}
                             </p>
                         </div>
                     </div>
@@ -353,14 +352,14 @@ const Customers = () => {
 
                         <h3 className="mt-5 text-lg font-semibold text-gray-900 dark:text-white">
                             {search
-                                ? t("No customers found")
-                                : t("No customers yet")}
+                                ? t("noCustomersFound")
+                                : t("noCustomersYet")}
                         </h3>
 
                         <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500 dark:text-slate-400">
                             {search
-                                ? t("Try searching with a different name, phone number or address.")
-                                : t("Add your first customer to start recording and tracking debts.")}
+                                ? t("tryDifferentSearch")
+                                : t("addFirstCustomer")}
                         </p>
 
                         {!search && (
@@ -369,7 +368,7 @@ const Customers = () => {
                                 className="mt-5 inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-600"
                             >
                                 <Plus size={17} />
-                                {t("Add Customer")}
+                                {t("addCustomer")}
                             </button>
                         )}
                     </div>
@@ -381,23 +380,23 @@ const Customers = () => {
                             <thead>
                                 <tr className="border-b border-gray-100 bg-gray-50/70 text-left dark:border-slate-800 dark:bg-slate-800/60">
                                     <th className="px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-slate-400">
-                                        {t("Customer")}
+                                        {t("customer")}
                                     </th>
 
                                     <th className="px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-slate-400">
-                                        {t("Contact")}
+                                        {t("contact")}
                                     </th>
 
                                     <th className="px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-slate-400">
-                                        {t("Address")}
+                                        {t("address")}
                                     </th>
 
                                     <th className="px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-slate-400">
-                                        {t("Added")}
+                                        {t("added")}
                                     </th>
 
                                     <th className="px-6 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-slate-400">
-                                        {t("Actions")}
+                                        {t("actions")}
                                     </th>
                                 </tr>
                             </thead>
@@ -450,7 +449,7 @@ const Customers = () => {
 
                                                 <span className="truncate">
                                                     {customer.home_address ||
-                                                        t("No address")}
+                                                        t("noAddress")}
                                                 </span>
                                             </div>
                                         </td>
@@ -474,8 +473,8 @@ const Customers = () => {
                                                     onClick={() =>
                                                         openEditModal(customer)
                                                     }
-                                                    title="Edit customer"
-                                                    aria-label="Edit customer"
+                                                    title={t("editCustomer")}
+                                                    aria-label={t("editCustomer")}
                                                     className="rounded-lg p-2 text-gray-400 transition hover:bg-sky-50 hover:text-sky-600 dark:text-slate-500 dark:hover:bg-sky-500/10 dark:hover:text-sky-400"
                                                 >
                                                     <Pencil size={17} />
@@ -483,8 +482,8 @@ const Customers = () => {
 
                                                 <button
                                                     type="button"
-                                                    title="Delete customer"
-                                                    aria-label="Delete customer"
+                                                    title={t("deleteCustomer")}
+                                                    aria-label={t("deleteCustomer")}
                                                     className="rounded-lg p-2 text-gray-400 transition hover:bg-red-50 hover:text-red-500 dark:text-slate-500 dark:hover:bg-red-500/10 dark:hover:text-red-400"
                                                 >
                                                     <Trash2 size={17} />
@@ -518,14 +517,14 @@ const Customers = () => {
                                 <div>
                                     <h2 className="text-lg font-bold text-gray-900 dark:text-white">
                                         {editingCustomer
-                                            ? t("Edit Customer")
-                                            : t("Add Customer")}
+                                            ? t("editCustomer")
+                                            : t("addCustomer")}
                                     </h2>
 
                                     <p className="mt-1 text-sm text-gray-500 dark:text-slate-400">
                                         {editingCustomer
-                                            ? t("Update this customer's information.")
-                                            : t("Add a customer to your LENEX workspace.")}
+                                            ? t("updateCustomerInformation")
+                                            : t("addCustomerDescription")}
                                     </p>
                                 </div>
                             </div>
@@ -534,7 +533,7 @@ const Customers = () => {
                                 type="button"
                                 onClick={closeModal}
                                 disabled={saving}
-                                aria-label="Close modal"
+                                aria-label={t("closeModal")}
                                 className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
                             >
                                 <X size={20} />
@@ -548,14 +547,14 @@ const Customers = () => {
                         >
                             {error && (
                                 <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-400">
-                                    {t(error)}
+                                    {error}
                                 </div>
                             )}
 
                             {/* NAME */}
                             <div>
                                 <label className={labelClass}>
-                                    {t("Full Name")}
+                                    {t("fullName")}
                                 </label>
 
                                 <div className="relative">
@@ -569,7 +568,7 @@ const Customers = () => {
                                         name="full_name"
                                         value={formData.full_name}
                                         onChange={handleChange}
-                                        placeholder="e.g. Jean Claude"
+                                        placeholder={t("exampleName")}
                                         required
                                         className={inputClass}
                                     />
@@ -579,7 +578,7 @@ const Customers = () => {
                             {/* PHONE */}
                             <div>
                                 <label className={labelClass}>
-                                    {t("Phone Number")}
+                                    {t("phoneNumber")}
                                 </label>
 
                                 <div className="relative">
@@ -593,7 +592,7 @@ const Customers = () => {
                                         name="phone_number"
                                         value={formData.phone_number}
                                         onChange={handleChange}
-                                        placeholder="e.g. 0788111111"
+                                        placeholder={t("examplePhone")}
                                         required
                                         className={inputClass}
                                     />
@@ -603,7 +602,7 @@ const Customers = () => {
                             {/* ADDRESS */}
                             <div>
                                 <label className={labelClass}>
-                                    {t("Home Address")}
+                                    {t("homeAddress")}
                                 </label>
 
                                 <div className="relative">
@@ -617,7 +616,7 @@ const Customers = () => {
                                         name="home_address"
                                         value={formData.home_address}
                                         onChange={handleChange}
-                                        placeholder="e.g. Kigali, Rwanda"
+                                        placeholder={t("exampleAddress")}
                                         className={inputClass}
                                     />
                                 </div>
@@ -626,7 +625,7 @@ const Customers = () => {
                             {/* NOTES */}
                             <div>
                                 <label className={labelClass}>
-                                    {t("Notes")}
+                                    {t("notes")}
                                 </label>
 
                                 <div className="relative">
@@ -640,7 +639,7 @@ const Customers = () => {
                                         value={formData.notes}
                                         onChange={handleChange}
                                         rows="3"
-                                        placeholder="Optional notes..."
+                                        placeholder={t("optionalNotes")}
                                         className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 py-3 pl-10 pr-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-sky-500 dark:focus:bg-slate-800 dark:focus:ring-sky-500/10"
                                     />
                                 </div>
@@ -654,7 +653,7 @@ const Customers = () => {
                                     disabled={saving}
                                     className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
                                 >
-                                    {t("Cancel")}
+                                    {t("cancel")}
                                 </button>
 
                                 <button
@@ -665,14 +664,14 @@ const Customers = () => {
                                     {saving ? (
                                         <>
                                             <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-                                            {t("Saving...")}
+                                           {t("saving")}
                                         </>
                                     ) : (
                                         <>
                                             <Plus size={17} />
                                             {editingCustomer
-                                                ? t("Save Changes")
-                                                : t("Add Customer")}
+                                                ? t("saveChanges")
+                                                : t("addCustomer")}
                                         </>
                                     )}
                                 </button>

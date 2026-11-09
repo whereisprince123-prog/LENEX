@@ -12,7 +12,7 @@ import {
     ChevronRight,
     CalendarDays
 } from "lucide-react";
-
+import { useTranslation } from "react-i18next";
 import { getFinancialSummary, getPaymentHistory } from "../services/reportService";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -43,6 +43,7 @@ const SummaryCard = ({ title, value, description, icon: Icon }) => (
 );
 
 const Reports = () => {
+    const { t } = useTranslation();
     const [report, setReport] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -77,7 +78,7 @@ const [paymentPagination, setPaymentPagination] = useState({
 
             setError(
                 err.response?.data?.message ||
-                "Unable to load reports. Please try again."
+t("unableToLoadReports")
             );
         } finally {
             setLoading(false);
@@ -104,8 +105,8 @@ const [paymentPagination, setPaymentPagination] = useState({
         console.error("Payment history error:", err);
 
         setPaymentError(
-            err.response?.data?.message ||
-            "Unable to load payment history."
+          err.response?.data?.message ||
+t("unableToLoadPaymentHistory")
         );
     } finally {
         setPaymentLoading(false);
@@ -163,8 +164,8 @@ const clearFilters = async () => {
         console.error("Clear report filters error:", err);
 
         setError(
-            err.response?.data?.message ||
-            "Unable to reload reports."
+           err.response?.data?.message ||
+t("unableToReloadReports")
         );
 
     } finally {
@@ -193,18 +194,18 @@ const clearFilters = async () => {
 const exportCSV = () => {
     const rows = [
         ["LENEX BUSINESS REPORT"],
-        ["Total Debt", financial?.totalDebtAmount || 0],
-        ["Total Collected", financial?.totalCollected || 0],
-        ["Outstanding Balance", financial?.outstandingBalance || 0],
-        ["Overdue Balance", financial?.overdueBalance || 0],
+        [t("totalDebtReport"), financial?.totalDebtAmount || 0],
+        [t("totalCollectedReport"), financial?.totalCollected || 0],
+        [t("outstandingBalanceReport"), financial?.outstandingBalance || 0],
+        [t("overdueBalanceReport"), financial?.overdueBalance || 0],
         [],
         [
-            "Customer",
-            "Phone",
-            "Debt Description",
-            "Payment Date",
-            "Amount Paid",
-            "Recorded By"
+            t("customer"),
+            t("phone"),
+            t("debtDescription"),
+            t("paymentDate"),
+            t("amountPaidReport"),
+            t("recordedByReport")
         ],
         ...payments.map((payment) => [
             payment.customer_name || "",
@@ -212,7 +213,7 @@ const exportCSV = () => {
             payment.debt_description || "",
             payment.payment_date || "",
             payment.amount_paid || 0,
-            payment.recorded_by_name || "Unknown"
+            payment.recorded_by_name || t("unknown")
         ])
     ];
 
@@ -243,40 +244,48 @@ const exportCSV = () => {
 const exportPDF = () => {
     const doc = new jsPDF();
 
+    // Report title
     doc.setFontSize(20);
-    doc.text("LENEX Business Report", 14, 20);
+   doc.text(t("reportTitle"), 14, 20);
 
+    // Generated date
     doc.setFontSize(11);
-    doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 30);
+    doc.text(
+        `${t("reportGenerated")}: ${new Date().toLocaleDateString()}`,
+        14,
+        30
+    );
 
+    // Financial overview
     doc.setFontSize(14);
-    doc.text("Financial Overview", 14, 42);
+    doc.text(t("financialOverviewReport"), 14, 42);
 
     autoTable(doc, {
         startY: 48,
-        head: [["Financial Item", "Amount"]],
+        head: [[t("financialItem"), t("amount")]],
         body: [
-            ["Total Debt", formatCurrency(financial?.totalDebtAmount)],
-            ["Total Collected", formatCurrency(financial?.totalCollected)],
-            ["Outstanding Balance", formatCurrency(financial?.outstandingBalance)],
-            ["Overdue Balance", formatCurrency(financial?.overdueBalance)]
+            [t("totalDebtReport"), formatCurrency(financial?.totalDebtAmount)],
+            [t("totalCollectedReport"), formatCurrency(financial?.totalCollected)],
+            [t("outstandingBalanceReport"), formatCurrency(financial?.outstandingBalance)],
+            [t("overdueBalanceReport"), formatCurrency(financial?.overdueBalance)]
         ]
     });
 
     const nextY = doc.lastAutoTable.finalY + 12;
 
+    // Payment history
     doc.setFontSize(14);
-    doc.text("Payment History", 14, nextY);
+    doc.text(t("paymentHistoryReport"), 14, nextY);
 
     autoTable(doc, {
         startY: nextY + 6,
         head: [[
-            "Customer",
-            "Phone",
-            "Debt",
-            "Payment Date",
-            "Amount Paid",
-            "Recorded By"
+            t("customer"),
+            t("phone"),
+            t("debt"),
+            t("paymentDate"),
+            t("amountPaidReport"),
+            t("recordedByReport")
         ]],
         body: payments.map((payment) => [
             payment.customer_name || "",
@@ -286,7 +295,7 @@ const exportPDF = () => {
                 ? new Date(payment.payment_date).toLocaleDateString()
                 : "",
             formatCurrency(payment.amount_paid),
-            payment.recorded_by_name || "Unknown"
+            payment.recorded_by_name || t("unknown")
         ]),
         styles: { fontSize: 8 },
         headStyles: { fillColor: [37, 99, 235] }
@@ -428,33 +437,39 @@ const printReport = () => {
                         </h2>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                            <SummaryCard
-                                title="Total debt"
-                                value={formatCurrency(financial.totalDebtAmount)}
-                                description={`${financial.totalDebtRecords} debt records`}
-                                icon={Wallet}
-                            />
+                           <SummaryCard
+    title={t("totalDebt")}
+    value={formatCurrency(financial.totalDebtAmount)}
+    description={t("debtRecordsCount", {
+        count: financial.totalDebtRecords
+    })}
+    icon={Wallet}
+/>
 
-                            <SummaryCard
-                                title="Total collected"
-                                value={formatCurrency(financial.totalCollected)}
-                                description={`${financial.paymentCount} payment transactions`}
-                                icon={TrendingUp}
-                            />
+<SummaryCard
+    title={t("totalCollected")}
+    value={formatCurrency(financial.totalCollected)}
+    description={t("paymentTransactionsCount", {
+        count: financial.paymentCount
+    })}
+    icon={TrendingUp}
+/>
 
-                            <SummaryCard
-                                title="Outstanding balance"
-                                value={formatCurrency(financial.outstandingBalance)}
-                                description="Remaining amount on active debts"
-                                icon={Clock}
-                            />
+<SummaryCard
+    title={t("outstandingBalance")}
+    value={formatCurrency(financial.outstandingBalance)}
+    description={t("remainingAmountOnActiveDebts")}
+    icon={Clock}
+/>
 
-                            <SummaryCard
-                                title="Overdue balance"
-                                value={formatCurrency(financial.overdueBalance)}
-                                description={`${financial.overdueCount} overdue debts`}
-                                icon={AlertTriangle}
-                            />
+<SummaryCard
+    title={t("overdueBalance")}
+    value={formatCurrency(financial.overdueBalance)}
+    description={t("overdueDebtsCount", {
+        count: financial.overdueCount
+    })}
+    icon={AlertTriangle}
+/>
                         </div>
                     </div>
 
@@ -615,7 +630,10 @@ const printReport = () => {
     <div className="mt-5 flex flex-col justify-between gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center">
 
         <p className="text-sm text-gray-500">
-            Showing {payments.length} of {paymentPagination.totalRecords} payments
+           {t("showingPayments", {
+    shown: payments.length,
+    total: paymentPagination.totalRecords
+})}
         </p>
 
         <div className="flex items-center gap-3">
@@ -630,7 +648,10 @@ const printReport = () => {
             </button>
 
             <span className="text-sm text-gray-600">
-                Page {paymentPagination.currentPage || 1} of {paymentPagination.totalPages || 1}
+               {t("pageOf", {
+    current: paymentPagination.currentPage || 1,
+    total: paymentPagination.totalPages || 1
+})}
             </span>
 
             <button

@@ -678,38 +678,64 @@ const forgotBusinessPassword = async (req, res) => {
         const resetLink =
             `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
+        // // Send the reset email
+        // await sendEmail({
+        //     to: user.email,
+        //     subject: "Reset your LENEX password",
+        //     html: `
+        //         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+        //             <h2>Password Reset Request</h2>
+
+        //             <p>Hello ${user.full_name},</p>
+
+        //             <p>
+        //                 We received a request to reset your LENEX account password.
+        //             </p>
+
+        //             <p>
+        //                 Click the button below to create a new password.
+        //             </p>
+
+        //             <a href="${resetLink}"
+        //                style="display:inline-block; background:#2563eb; color:white;
+        //                padding:12px 24px; text-decoration:none; border-radius:6px;">
+        //                 Reset Password
+        //             </a>
+
+        //             <p>This link expires in 15 minutes and can only be used once.</p>
+
+        //             <p>If you did not request this reset, you can ignore this email.</p>
+
+        //             <p>LENEX Support Team</p>
+        //         </div>
+        //     `
+        // });
+
         // Send the reset email
-        await sendEmail({
-            to: user.email,
-            subject: "Reset your LENEX password",
-            html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
-                    <h2>Password Reset Request</h2>
+console.log("Password reset email attempt:", user.email);
 
-                    <p>Hello ${user.full_name},</p>
+const emailResult = await sendEmail({
+    to: user.email,
+    subject: "Reset your LENEX password",
+    html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+            <h2>Password Reset Request</h2>
+            <p>Hello ${user.full_name},</p>
+            <p>We received a request to reset your LENEX account password.</p>
+            <p>Click the button below to create a new password.</p>
+            <a href="${resetLink}"
+               style="display:inline-block; background:#2563eb; color:white;
+               padding:12px 24px; text-decoration:none; border-radius:6px;">
+                Reset Password
+            </a>
+            <p>This link expires in 15 minutes and can only be used once.</p>
+            <p>If you did not request this reset, you can ignore this email.</p>
+            <p>LENEX Support Team</p>
+        </div>
+    `
+});
 
-                    <p>
-                        We received a request to reset your LENEX account password.
-                    </p>
-
-                    <p>
-                        Click the button below to create a new password.
-                    </p>
-
-                    <a href="${resetLink}"
-                       style="display:inline-block; background:#2563eb; color:white;
-                       padding:12px 24px; text-decoration:none; border-radius:6px;">
-                        Reset Password
-                    </a>
-
-                    <p>This link expires in 15 minutes and can only be used once.</p>
-
-                    <p>If you did not request this reset, you can ignore this email.</p>
-
-                    <p>LENEX Support Team</p>
-                </div>
-            `
-        });
+console.log("Resend response:", emailResult);
 
         return res.status(200).json({
             success: true,

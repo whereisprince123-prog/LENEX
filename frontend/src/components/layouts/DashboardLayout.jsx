@@ -24,12 +24,12 @@ const DashboardLayout = () => {
 
     const { t, i18n } = useTranslation();
 
-    const handleLanguageChange = async (event) => {
-        const selectedLanguage = event.target.value;
+   const handleLanguageChange = (event) => {
+    const selectedLanguage = event.target.value;
 
-        await i18n.changeLanguage(selectedLanguage);
-        localStorage.setItem("lenex_language", selectedLanguage);
-    };
+    localStorage.setItem("lenex_language", selectedLanguage);
+    i18n.changeLanguage(selectedLanguage);
+};
 
     // Get logged-in user and business
     const storedUser = localStorage.getItem("lenex_user");
@@ -134,7 +134,7 @@ const DashboardLayout = () => {
                             </h1>
 
                             <p className="text-xs text-gray-400 dark:text-slate-500">
-                                Smarter credit
+                                {t("smarterCredit")}
                             </p>
                         </div>
                     </div>
@@ -154,7 +154,7 @@ const DashboardLayout = () => {
                 <div className="flex flex-1 flex-col justify-center px-3">
 
                     <p className="mb-4 px-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-400 dark:text-slate-500">
-                        Workspace
+                        {t("workspace")}
                     </p>
 
                     <nav className="space-y-1">
@@ -259,7 +259,7 @@ const DashboardLayout = () => {
                         className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-500 transition hover:bg-red-50 hover:text-red-600 dark:text-slate-400 dark:hover:bg-red-500/10 dark:hover:text-red-400"
                     >
                         <LogOut size={19} strokeWidth={1.8} />
-                        <span>Logout</span>
+                        <span>{t("logout")}</span>
                     </button>
                 </div>
             </aside>

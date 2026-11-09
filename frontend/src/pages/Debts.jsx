@@ -13,7 +13,7 @@ import {
     ClockAlert,
     Banknote,
 } from "lucide-react";
-
+import { useTranslation } from "react-i18next";
 import api from "../services/api";
 
 const Debts = () => {
@@ -40,7 +40,7 @@ const Debts = () => {
     const [paymentAmount, setPaymentAmount] = useState("");
     const [paymentNotes, setPaymentNotes] = useState("");
 
-    
+    const { t } = useTranslation();
 
     
 
@@ -474,16 +474,16 @@ setPayingDebt(null);
                         </div>
 
                         <span className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-500">
-                            Debts
+                            {t("debts")}
                         </span>
                     </div>
 
                     <h1 className="mt-3 text-2xl font-bold tracking-tight text-gray-900">
-                        Debt Management
+                        {t("debtManagement")}
                     </h1>
 
                     <p className="mt-1 text-sm text-gray-500">
-                        Record and track customer credit with confidence.
+                        {t("debtManagementDescription")}
                     </p>
                 </div>
 
@@ -492,7 +492,7 @@ setPayingDebt(null);
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-600"
                 >
                     <Plus size={18} />
-                    Record Debt
+                    {t("recordDebt")}
                 </button>
             </div>
 
@@ -512,7 +512,7 @@ setPayingDebt(null);
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-gray-500">
-                                Total Debts
+                                {t("totalDebts")}
                             </p>
                             <p className="mt-2 text-2xl font-bold text-gray-900">
                                 {debts.length}
@@ -529,7 +529,7 @@ setPayingDebt(null);
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-gray-500">
-                                Unpaid
+                                {t("unpaid")}
                             </p>
                             <p className="mt-2 text-xl font-bold text-gray-900">
                                 {formatMoney(
@@ -552,7 +552,7 @@ setPayingDebt(null);
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-gray-500">
-                                Overdue
+                                {t("overdue")}
                             </p>
                             <p className="mt-2 text-xl font-bold text-gray-900">
                                 {formatMoney(
@@ -575,7 +575,7 @@ setPayingDebt(null);
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-gray-500">
-                                Paid
+                                {t("paid")}
                             </p>
                             <p className="mt-2 text-xl font-bold text-gray-900">
                                 {formatMoney(
@@ -603,7 +603,7 @@ setPayingDebt(null);
 
                     <div>
                         <h2 className="font-semibold text-gray-900">
-                            All Debt Records
+                            {t("allDebtRecords")}
                         </h2>
 
                         <p className="mt-1 text-xs text-gray-400">
@@ -636,7 +636,7 @@ setPayingDebt(null);
                         <div className="text-center">
                             <div className="mx-auto h-9 w-9 animate-spin rounded-full border-4 border-gray-200 border-t-sky-500" />
                             <p className="mt-3 text-sm text-gray-500">
-                                Loading debts...
+                                {t("loadingDebts")}
                             </p>
                         </div>
                     </div>
@@ -650,7 +650,8 @@ setPayingDebt(null);
                         <h3 className="mt-5 text-lg font-semibold text-gray-900">
                             {search
                                 ? "No debts found"
-                                : "No debt records yet"}
+                                : "No debt records yet"
+                                }
                         </h3>
 
                         <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500">
@@ -665,7 +666,7 @@ setPayingDebt(null);
                                 className="mt-5 inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-600"
                             >
                                 <Plus size={17} />
-                                Record Debt
+                                {t("recordDebt")}
                             </button>
                         )}
                     </div>
@@ -678,27 +679,27 @@ setPayingDebt(null);
                                 <tr className="border-b border-gray-100 bg-gray-50/70 text-left">
 
                                     <th className="px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400">
-                                        Customer
+                                        {t("customer")}
                                     </th>
 
                                     <th className="px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400">
-                                        Amount
+                                        {t("amount")}
                                     </th>
 
                                     <th className="px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400">
-                                        Debt Date
+                                        {t("debtDate")}
                                     </th>
 
                                     <th className="px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400">
-                                        Due Date
+                                        {t("dueDate")}
                                     </th>
 
                                     <th className="px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400">
-                                        Status
+                                        {t("status")}
                                     </th>
 
                                     <th className="px-6 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400">
-                                        Actions
+                                        {t("actions")}
                                     </th>
 
                                 </tr>
@@ -746,13 +747,13 @@ setPayingDebt(null);
 
                                                 {Number(debt.amount_paid || 0) > 0 && (
                                                     <p className="mt-0.5 text-xs text-green-600">
-                                                        Paid: {formatMoney(debt.amount_paid)}
+                                                        {t("paid")}: {formatMoney(debt.amount_paid)}
                                                     </p>
                                                 )}
 
                                                 {Number(debt.remaining_amount || 0) > 0 && (
                                                     <p className="mt-0.5 text-xs text-gray-400">
-                                                        Remaining: {formatMoney(debt.remaining_amount)}
+                                                        {t("remaining")}: {formatMoney(debt.remaining_amount)}
                                                     </p>
                                                 )}
 
@@ -821,7 +822,7 @@ setPayingDebt(null);
                                                             setSelectedDebt(debt);
                                                             setShowDetails(true);
                                                         }}
-                                                        title="View debt"
+                                                        title={t("viewDebt")}
                                                         className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
                                                     >
                                                         <Eye size={17} />
@@ -836,7 +837,7 @@ setPayingDebt(null);
                                                                             debt
                                                                         )
                                                                     }
-                                                                    title="Record payment"
+                                                                    title={t("recordPaymentHeading")}
                                                                     className="rounded-lg p-2 text-gray-400 transition hover:bg-green-50 hover:text-green-600"
                                                                 >
                                                                     <CheckCircle2
@@ -850,7 +851,7 @@ setPayingDebt(null);
                                                                             debt
                                                                         )
                                                                     }
-                                                                    title="Edit debt"
+                                                                    title={t("editDebt")}
                                                                     className="rounded-lg p-2 text-gray-400 transition hover:bg-sky-50 hover:text-sky-600"
                                                                 >
                                                                     <Pencil
@@ -864,7 +865,7 @@ setPayingDebt(null);
                                                                             debt
                                                                         )
                                                                     }
-                                                                    title="Cancel debt"
+                                                                    title={t("cancelDebt")}
                                                                     className="rounded-lg p-2 text-gray-400 transition hover:bg-red-50 hover:text-red-600"
                                                                 >
                                                                     <XCircle
@@ -889,628 +890,650 @@ setPayingDebt(null);
 
             {/* ADD / EDIT MODAL */}
 
-            {showModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 backdrop-blur-[2px]">
+           {showModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 backdrop-blur-[2px]">
+    <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white shadow-2xl">
 
-                    <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white shadow-2xl">
-
-                        <div className="flex items-start justify-between border-b border-gray-100 px-6 py-5">
-
-                            <div className="flex items-start gap-3">
-
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
-                                    {editingDebt ? (
-                                        <Pencil size={18} />
-                                    ) : (
-                                        <ReceiptText size={19} />
-                                    )}
-                                </div>
-
-                                <div>
-                                    <h2 className="text-lg font-bold text-gray-900">
-                                        {editingDebt
-                                            ? "Edit Debt"
-                                            : "Record New Debt"}
-                                    </h2>
-
-                                    <p className="mt-1 text-sm text-gray-500">
-                                        {editingDebt
-                                            ? "Update this customer's credit information."
-                                            : "Record a customer's credit information."}
-                                    </p>
-                                </div>
-
-                            </div>
-
-                            <button
-                                onClick={closeModal}
-                                disabled={saving}
-                                className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50"
-                            >
-                                <X size={20} />
-                            </button>
-
-                        </div>
-
-                        <form
-                            onSubmit={handleSubmit}
-                            className="space-y-5 p-6"
-                        >
-
-                            <div>
-                                <label className="mb-2 block text-sm font-semibold text-gray-700">
-                                    Customer *
-                                </label>
-
-                                <div className="relative">
-
-                                    <UserRound
-                                        size={17}
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                                    />
-
-                                    <select
-                                        name="customer_id"
-                                        value={formData.customer_id}
-                                        onChange={handleChange}
-                                        required
-                                        className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm text-gray-900 outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
-                                    >
-                                        <option value="">
-                                            Select customer
-                                        </option>
-
-                                        {customers.map((customer) => (
-                                            <option
-                                                key={customer.customer_id}
-                                                value={customer.customer_id}
-                                            >
-                                                {customer.full_name} —{" "}
-                                                {customer.phone_number}
-                                            </option>
-                                        ))}
-                                    </select>
-
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="mb-2 block text-sm font-semibold text-gray-700">
-                                    Amount (RWF) *
-                                </label>
-
-                                <div className="relative">
-
-                                    <Banknote
-                                        size={17}
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                                    />
-
-                                    <input
-                                        type="number"
-                                        name="amount"
-                                        value={formData.amount}
-                                        onChange={handleChange}
-                                        min="1"
-                                        step="1"
-                                        placeholder="50000"
-                                        required
-                                        className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
-                                    />
-
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="mb-2 block text-sm font-semibold text-gray-700">
-                                    Description
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    placeholder="e.g. Rice - 2 bags"
-                                    className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
-                                />
-                            </div>
-
-                            <div className="grid gap-5 sm:grid-cols-2">
-
-                                <div>
-                                    <label className="mb-2 block text-sm font-semibold text-gray-700">
-                                        Debt Date *
-                                    </label>
-
-                                    <input
-                                        type="date"
-                                        name="debt_date"
-                                        value={formData.debt_date}
-                                        onChange={handleChange}
-                                        required
-                                        className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm text-gray-900 outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="mb-2 block text-sm font-semibold text-gray-700">
-                                        Due Date *
-                                    </label>
-
-                                    <input
-                                        type="date"
-                                        name="due_date"
-                                        value={formData.due_date}
-                                        onChange={handleChange}
-                                        required
-                                        className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm text-gray-900 outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
-                                    />
-                                </div>
-
-                            </div>
-
-                            <div>
-                                <label className="mb-2 block text-sm font-semibold text-gray-700">
-                                    Notes
-                                </label>
-
-                                <textarea
-                                    name="notes"
-                                    value={formData.notes}
-                                    onChange={handleChange}
-                                    rows="3"
-                                    placeholder="Optional notes..."
-                                    className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
-                                />
-                            </div>
-
-                            <div className="flex justify-end gap-3 border-t border-gray-100 pt-5">
-
-                                <button
-                                    type="button"
-                                    onClick={closeModal}
-                                    disabled={saving}
-                                    className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-50"
-                                >
-                                    Cancel
-                                </button>
-
-                                <button
-                                    type="submit"
-                                    disabled={saving}
-                                    className="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-60"
-                                >
-                                    {saving ? (
-                                        <>
-                                            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-                                            Saving...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Plus size={17} />
-                                            {editingDebt
-                                                ? "Save Changes"
-                                                : "Record Debt"}
-                                        </>
-                                    )}
-                                </button>
-
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
+      {/* Modal Header */}
+      <div className="flex items-start justify-between border-b border-gray-100 px-6 py-5">
+        <div className="flex items-start gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
+            {editingDebt ? (
+              <Pencil size={18} />
+            ) : (
+              <ReceiptText size={19} />
             )}
+          </div>
 
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">
+              {editingDebt
+                ? t("editDebtHeading")
+                : t("recordNewDebt")}
+            </h2>
+
+            <p className="mt-1 text-sm text-gray-500">
+              {editingDebt
+                ? t("updateCustomerCredit")
+                : t("recordCustomerCredit")}
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={closeModal}
+          disabled={saving}
+          aria-label={t("close")}
+          className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50"
+        >
+          <X size={20} />
+        </button>
+      </div>
+
+      {/* Modal Form */}
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-5 p-6"
+      >
+        {/* Customer */}
+        <div>
+          <label className="mb-2 block text-sm font-semibold text-gray-700">
+            {t("customer")} *
+          </label>
+
+          <div className="relative">
+            <UserRound
+              size={17}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+
+            <select
+              name="customer_id"
+              value={formData.customer_id}
+              onChange={handleChange}
+              required
+              className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm text-gray-900 outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
+            >
+              <option value="">
+                {t("selectCustomer")}
+              </option>
+
+              {customers.map((customer) => (
+                <option
+                  key={customer.customer_id}
+                  value={customer.customer_id}
+                >
+                  {customer.full_name} — {customer.phone_number}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Amount */}
+        <div>
+          <label className="mb-2 block text-sm font-semibold text-gray-700">
+            {t("amountRwf")}
+          </label>
+
+          <div className="relative">
+            <Banknote
+              size={17}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+
+            <input
+              type="number"
+              name="amount"
+              value={formData.amount}
+              onChange={handleChange}
+              min="1"
+              step="1"
+              placeholder="50000"
+              required
+              className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
+            />
+          </div>
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="mb-2 block text-sm font-semibold text-gray-700">
+            {t("description")}
+          </label>
+
+          <input
+            type="text"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder={t("descriptionPlaceholder")}
+            className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
+          />
+        </div>
+
+        {/* Dates */}
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-gray-700">
+              {t("debtDate")} *
+            </label>
+
+            <input
+              type="date"
+              name="debt_date"
+              value={formData.debt_date}
+              onChange={handleChange}
+              required
+              className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm text-gray-900 outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-gray-700">
+              {t("dueDate")} *
+            </label>
+
+            <input
+              type="date"
+              name="due_date"
+              value={formData.due_date}
+              onChange={handleChange}
+              required
+              className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm text-gray-900 outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
+            />
+          </div>
+        </div>
+
+        {/* Notes */}
+        <div>
+          <label className="mb-2 block text-sm font-semibold text-gray-700">
+            {t("notes")}
+          </label>
+
+          <textarea
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            rows="3"
+            placeholder={t("optionalNotes")}
+            className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
+          />
+        </div>
+
+        {/* Buttons */}
+        <div className="flex justify-end gap-3 border-t border-gray-100 pt-5">
+          <button
+            type="button"
+            onClick={closeModal}
+            disabled={saving}
+            className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-50"
+          >
+            {t("cancel")}
+          </button>
+
+          <button
+            type="submit"
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {saving ? (
+              <>
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                {t("saving")}
+              </>
+            ) : (
+              <>
+                <Plus size={17} />
+                {editingDebt
+                  ? t("saveChanges")
+                  : t("recordDebt")}
+              </>
+            )}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
             {/* VIEW DETAILS MODAL */}
 
-            {showDetails && selectedDebt && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 backdrop-blur-[2px]">
+           {showDetails && selectedDebt && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 backdrop-blur-[2px]">
+    <div className="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
 
-                    <div className="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
+      {/* Modal Header */}
+      <div className="flex items-start justify-between border-b border-gray-100 px-6 py-5">
+        <div className="flex items-start gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
+            <Eye size={18} />
+          </div>
 
-                        <div className="flex items-start justify-between border-b border-gray-100 px-6 py-5">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">
+              {t("debtDetails")}
+            </h2>
 
-                            <div className="flex items-start gap-3">
+            <p className="mt-1 text-sm text-gray-500">
+              {t("completeDebtInformation")}
+            </p>
+          </div>
+        </div>
 
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
-                                    <Eye size={18} />
-                                </div>
+        <button
+          onClick={() => {
+            setShowDetails(false);
+            setSelectedDebt(null);
+          }}
+          aria-label={t("close")}
+          className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-50 hover:text-gray-700"
+        >
+          <X size={20} />
+        </button>
+      </div>
 
-                                <div>
-                                    <h2 className="text-lg font-bold text-gray-900">
-                                        Debt Details
-                                    </h2>
+      <div className="space-y-5 p-6">
 
-                                    <p className="mt-1 text-sm text-gray-500">
-                                        Complete debt information
-                                    </p>
-                                </div>
+        {/* Customer Information */}
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-50 text-sm font-bold text-sky-600">
+            {getInitials(selectedDebt.customer_name)}
+          </div>
 
-                            </div>
+          <div>
+            <p className="font-semibold text-gray-900">
+              {selectedDebt.customer_name}
+            </p>
 
-                            <button
-                                onClick={() => {
-                                    setShowDetails(false);
-                                    setSelectedDebt(null);
-                                }}
-                                className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-50 hover:text-gray-700"
-                            >
-                                <X size={20} />
-                            </button>
+            <p className="text-sm text-gray-500">
+              {selectedDebt.phone_number || t("noPhoneNumber")}
+            </p>
+          </div>
+        </div>
 
-                        </div>
+        {/* Financial Summary */}
+        <div className="grid gap-3 sm:grid-cols-3">
+          <div className="rounded-xl bg-gray-50 p-4">
+            <p className="text-xs text-gray-500">
+              {t("originalAmount")}
+            </p>
 
-                        <div className="space-y-5 p-6">
+            <p className="mt-1 font-bold text-gray-900">
+              {formatMoney(selectedDebt.amount)}
+            </p>
+          </div>
 
-                            <div className="flex items-center gap-3">
+          <div className="rounded-xl bg-green-50 p-4">
+            <p className="text-xs text-green-600">
+              {t("paid")}
+            </p>
 
-                                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-50 text-sm font-bold text-sky-600">
-                                    {getInitials(selectedDebt.customer_name)}
-                                </div>
+            <p className="mt-1 font-bold text-green-700">
+              {formatMoney(selectedDebt.amount_paid || 0)}
+            </p>
+          </div>
 
-                                <div>
-                                    <p className="font-semibold text-gray-900">
-                                        {selectedDebt.customer_name}
-                                    </p>
+          <div className="rounded-xl bg-yellow-50 p-4">
+            <p className="text-xs text-yellow-700">
+              {t("remaining")}
+            </p>
 
-                                    <p className="text-sm text-gray-500">
-                                        {selectedDebt.phone_number ||
-                                            "No phone number"}
-                                    </p>
-                                </div>
+            <p className="mt-1 font-bold text-yellow-700">
+              {formatMoney(
+                selectedDebt.remaining_amount ??
+                  (Number(selectedDebt.amount || 0) -
+                    Number(selectedDebt.amount_paid || 0))
+              )}
+            </p>
+          </div>
+        </div>
 
-                            </div>
+        {/* Debt Status */}
+        <div className="rounded-xl bg-gray-50 p-4">
+          <p className="text-xs text-gray-500">
+            {t("status")}
+          </p>
 
-                            <div className="grid gap-3 sm:grid-cols-3">
+          <span
+            className={`mt-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${getStatusClasses(
+              getEffectiveStatus(selectedDebt)
+            )}`}
+          >
+            {(() => {
+              const status = getEffectiveStatus(selectedDebt);
 
-                                <div className="rounded-xl bg-gray-50 p-4">
-                                    <p className="text-xs text-gray-500">
-                                        Original amount
-                                    </p>
+              const statusTranslations = {
+                PAID: "statusPaid",
+                OVERDUE: "statusOverdue",
+                CANCELLED: "statusCancelled",
+                UNPAID: "statusUnpaid",
+                PARTIALLY_PAID: "statusPartiallyPaid",
+              };
 
-                                    <p className="mt-1 font-bold text-gray-900">
-                                        {formatMoney(selectedDebt.amount)}
-                                    </p>
-                                </div>
+              return t(statusTranslations[status] || status);
+            })()}
+          </span>
+        </div>
 
-                                <div className="rounded-xl bg-green-50 p-4">
-                                    <p className="text-xs text-green-600">
-                                        Paid
-                                    </p>
+        {/* Dates */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p className="text-xs text-gray-500">
+              {t("debtDate")}
+            </p>
 
-                                    <p className="mt-1 font-bold text-green-700">
-                                        {formatMoney(selectedDebt.amount_paid || 0)}
-                                    </p>
-                                </div>
+            <p className="mt-1 text-sm font-medium text-gray-900">
+              {formatDate(selectedDebt.debt_date)}
+            </p>
+          </div>
 
-                                <div className="rounded-xl bg-yellow-50 p-4">
-                                    <p className="text-xs text-yellow-700">
-                                        Remaining
-                                    </p>
+          <div>
+            <p className="text-xs text-gray-500">
+              {t("dueDate")}
+            </p>
 
-                                    <p className="mt-1 font-bold text-yellow-700">
-                                        {formatMoney(
-                                            selectedDebt.remaining_amount ??
-                                                (Number(selectedDebt.amount || 0) - Number(selectedDebt.amount_paid || 0))
-                                        )}
-                                    </p>
-                                </div>
+            <p className="mt-1 text-sm font-medium text-gray-900">
+              {formatDate(selectedDebt.due_date)}
+            </p>
+          </div>
+        </div>
 
-                            </div>
+        {/* Description */}
+        {selectedDebt.description && (
+          <div>
+            <p className="text-xs text-gray-500">
+              {t("description")}
+            </p>
 
-                            <div className="rounded-xl bg-gray-50 p-4">
-                                <p className="text-xs text-gray-500">
-                                    Status
-                                </p>
+            <p className="mt-1 text-sm text-gray-800">
+              {selectedDebt.description}
+            </p>
+          </div>
+        )}
 
-                                <span
-                                    className={`mt-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${getStatusClasses(
-                                        getEffectiveStatus(selectedDebt)
-                                    )}`}
-                                >
-                                    {getEffectiveStatus(selectedDebt)}
-                                </span>
-                            </div>
+        {/* Notes */}
+        {selectedDebt.notes && (
+          <div>
+            <p className="text-xs text-gray-500">
+              {t("notes")}
+            </p>
 
-                            <div className="grid grid-cols-2 gap-4">
+            <p className="mt-1 text-sm text-gray-800">
+              {selectedDebt.notes}
+            </p>
+          </div>
+        )}
 
-                                <div>
-                                    <p className="text-xs text-gray-500">
-                                        Debt Date
-                                    </p>
-
-                                    <p className="mt-1 text-sm font-medium text-gray-900">
-                                        {formatDate(selectedDebt.debt_date)}
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <p className="text-xs text-gray-500">
-                                        Due Date
-                                    </p>
-
-                                    <p className="mt-1 text-sm font-medium text-gray-900">
-                                        {formatDate(selectedDebt.due_date)}
-                                    </p>
-                                </div>
-
-                            </div>
-
-                            {selectedDebt.description && (
-                                <div>
-                                    <p className="text-xs text-gray-500">
-                                        Description
-                                    </p>
-
-                                    <p className="mt-1 text-sm text-gray-800">
-                                        {selectedDebt.description}
-                                    </p>
-                                </div>
-                            )}
-
-                            {selectedDebt.notes && (
-                                <div>
-                                    <p className="text-xs text-gray-500">
-                                        Notes
-                                    </p>
-
-                                    <p className="mt-1 text-sm text-gray-800">
-                                        {selectedDebt.notes}
-                                    </p>
-                                </div>
-                            )}
-
-                        </div>
-                    </div>
-                </div>
-            )}
+      </div>
+    </div>
+  </div>
+)}
 
             {/* CANCEL CONFIRMATION */}
 
-            {cancelDebt && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 p-4 backdrop-blur-[2px]">
+           {cancelDebt && (
+  <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 p-4 backdrop-blur-[2px]">
+    <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
 
-                    <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+      {/* Warning Icon */}
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600">
+        <XCircle size={24} />
+      </div>
 
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600">
-                            <XCircle size={24} />
-                        </div>
+      {/* Confirmation Message */}
+      <h2 className="mt-4 text-lg font-bold text-gray-900">
+        {t("cancelThisDebt")}
+      </h2>
 
-                        <h2 className="mt-4 text-lg font-bold text-gray-900">
-                            Cancel this debt?
-                        </h2>
+      <p className="mt-2 text-sm leading-6 text-gray-500">
+        {t("cancelDebtConfirmation")}
+      </p>
 
-                        <p className="mt-2 text-sm leading-6 text-gray-500">
-                            This will mark the debt as cancelled. It will no
-                            longer be treated as an unpaid debt.
-                        </p>
+      {/* Debt Amount */}
+      <div className="mt-4 rounded-xl bg-gray-50 p-4">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-500">
+            {t("amount")}
+          </span>
 
-                        <div className="mt-4 rounded-xl bg-gray-50 p-4">
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm text-gray-500">
-                                    Amount
-                                </span>
+          <span className="font-bold text-gray-900">
+            {formatMoney(cancelDebt.amount)}
+          </span>
+        </div>
+      </div>
 
-                                <span className="font-bold text-gray-900">
-                                    {formatMoney(cancelDebt.amount)}
-                                </span>
-                            </div>
-                        </div>
+      {/* Action Buttons */}
+      <div className="mt-6 flex justify-end gap-3">
+        <button
+          onClick={() => setCancelDebt(null)}
+          disabled={cancelling}
+          className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-50"
+        >
+          {t("keepDebt")}
+        </button>
 
-                        <div className="mt-6 flex justify-end gap-3">
+        <button
+          onClick={handleCancelDebt}
+          disabled={cancelling}
+          className="rounded-xl bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {cancelling
+            ? t("cancelling")
+            : t("cancelDebtButton")}
+        </button>
+      </div>
 
-                            <button
-                                onClick={() => setCancelDebt(null)}
-                                disabled={cancelling}
-                                className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-50"
-                            >
-                                Keep Debt
-                            </button>
-
-                            <button
-                                onClick={handleCancelDebt}
-                                disabled={cancelling}
-                                className="rounded-xl bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
-                            >
-                                {cancelling
-                                    ? "Cancelling..."
-                                    : "Cancel Debt"}
-                            </button>
-
-                        </div>
-
-                    </div>
-                </div>
-            )}
+    </div>
+  </div>
+)}
 
             {/* RECORD PAYMENT MODAL */}
 
-            {payingDebt && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 p-4 backdrop-blur-[2px]">
+           {payingDebt && (
+  <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 p-4 backdrop-blur-[2px]">
+    <div className="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
 
-                    <div className="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
+      {/* Modal Header */}
+      <div className="flex items-start justify-between border-b border-gray-100 px-6 py-5">
+        <div className="flex items-start gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
+            <Banknote size={19} />
+          </div>
 
-                        <div className="flex items-start justify-between border-b border-gray-100 px-6 py-5">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">
+              {t("recordPaymentHeading")}
+            </h2>
 
-                            <div className="flex items-start gap-3">
+            <p className="mt-1 text-sm text-gray-500">
+              {t("recordFullOrPartialPayment")}
+            </p>
+          </div>
+        </div>
 
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
-                                    <Banknote size={19} />
-                                </div>
+        <button
+          type="button"
+          onClick={closePaymentModal}
+          disabled={paying}
+          aria-label={t("close")}
+          className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50"
+        >
+          <X size={20} />
+        </button>
+      </div>
 
-                                <div>
-                                    <h2 className="text-lg font-bold text-gray-900">
-                                        Record Payment
-                                    </h2>
-                                    <p className="mt-1 text-sm text-gray-500">
-                                        Record a full or partial payment for this debt.
-                                    </p>
-                                </div>
+      <form onSubmit={handleRecordPayment} className="space-y-5 p-6">
 
-                            </div>
+        {/* Customer Information */}
+        <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-100 text-sm font-bold text-sky-600">
+              {getInitials(payingDebt.customer_name)}
+            </div>
 
-                            <button
-                                type="button"
-                                onClick={closePaymentModal}
-                                disabled={paying}
-                                className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50"
-                            >
-                                <X size={20} />
-                            </button>
+            <div className="min-w-0">
+              <p className="font-semibold text-gray-900">
+                {payingDebt.customer_name}
+              </p>
 
-                        </div>
+              <p className="text-xs text-gray-500">
+                {payingDebt.phone_number || t("noPhoneNumber")}
+              </p>
+            </div>
+          </div>
+        </div>
 
-                        <form onSubmit={handleRecordPayment} className="space-y-5 p-6">
+        {/* Debt Summary */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="rounded-xl border border-gray-100 bg-white p-3">
+            <p className="text-[11px] font-medium uppercase tracking-wide text-gray-400">
+              {t("debts")}
+            </p>
 
-                            <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-100 text-sm font-bold text-sky-600">
-                                        {getInitials(payingDebt.customer_name)}
-                                    </div>
-                                    <div className="min-w-0">
-                                        <p className="font-semibold text-gray-900">
-                                            {payingDebt.customer_name}
-                                        </p>
-                                        <p className="text-xs text-gray-500">
-                                            {payingDebt.phone_number || "No phone number"}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+            <p className="mt-1 text-sm font-bold text-gray-900">
+              {formatMoney(payingDebt.amount)}
+            </p>
+          </div>
 
-                            <div className="grid grid-cols-3 gap-3">
-                                <div className="rounded-xl border border-gray-100 bg-white p-3">
-                                    <p className="text-[11px] font-medium uppercase tracking-wide text-gray-400">
-                                        Debt
-                                    </p>
-                                    <p className="mt-1 text-sm font-bold text-gray-900">
-                                        {formatMoney(payingDebt.amount)}
-                                    </p>
-                                </div>
+          <div className="rounded-xl border border-green-100 bg-green-50 p-3">
+            <p className="text-[11px] font-medium uppercase tracking-wide text-green-600">
+              {t("paid")}
+            </p>
 
-                                <div className="rounded-xl border border-green-100 bg-green-50 p-3">
-                                    <p className="text-[11px] font-medium uppercase tracking-wide text-green-600">
-                                        Paid
-                                    </p>
-                                    <p className="mt-1 text-sm font-bold text-green-700">
-                                        {formatMoney(payingDebt.amount_paid || 0)}
-                                    </p>
-                                </div>
+            <p className="mt-1 text-sm font-bold text-green-700">
+              {formatMoney(payingDebt.amount_paid || 0)}
+            </p>
+          </div>
 
-                                <div className="rounded-xl border border-yellow-100 bg-yellow-50 p-3">
-                                    <p className="text-[11px] font-medium uppercase tracking-wide text-yellow-700">
-                                        Remaining
-                                    </p>
-                                    <p className="mt-1 text-sm font-bold text-yellow-700">
-                                        {formatMoney(payingDebt.remaining_amount)}
-                                    </p>
-                                </div>
-                            </div>
+          <div className="rounded-xl border border-yellow-100 bg-yellow-50 p-3">
+            <p className="text-[11px] font-medium uppercase tracking-wide text-yellow-700">
+              {t("remaining")}
+            </p>
 
-                            <div>
-                                <label className="mb-2 block text-sm font-semibold text-gray-700">
-                                    Payment amount (RWF) *
-                                </label>
+            <p className="mt-1 text-sm font-bold text-yellow-700">
+              {formatMoney(payingDebt.remaining_amount)}
+            </p>
+          </div>
+        </div>
 
-                                <div className="relative">
-                                    <Banknote
-                                        size={17}
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                                    />
-                                    <input
-                                        type="number"
-                                        value={paymentAmount}
-                                        onChange={(event) => setPaymentAmount(event.target.value)}
-                                        min="1"
-                                        max={payingDebt.remaining_amount}
-                                        step="1"
-                                        placeholder="e.g. 30000"
-                                        required
-                                        autoFocus
-                                        className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
-                                    />
-                                </div>
+        {/* Payment Amount */}
+        <div>
+          <label className="mb-2 block text-sm font-semibold text-gray-700">
+            {t("paymentAmountRwf")}
+          </label>
 
-                                <div className="mt-2 flex items-center justify-between text-xs">
-                                    <span className="text-gray-400">
-                                        Maximum payment
-                                    </span>
-                                    <button
-                                        type="button"
-                                        onClick={() => setPaymentAmount(String(payingDebt.remaining_amount))}
-                                        className="font-semibold text-sky-600 hover:text-sky-700"
-                                    >
-                                        Pay remaining {formatMoney(payingDebt.remaining_amount)}
-                                    </button>
-                                </div>
-                            </div>
+          <div className="relative">
+            <Banknote
+              size={17}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
 
-                            <div>
-                                <label className="mb-2 block text-sm font-semibold text-gray-700">
-                                    Payment note
-                                </label>
-                                <textarea
-                                    value={paymentNotes}
-                                    onChange={(event) => setPaymentNotes(event.target.value)}
-                                    rows="3"
-                                    placeholder="Optional note about this payment..."
-                                    className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
-                                />
-                            </div>
+            <input
+              type="number"
+              value={paymentAmount}
+              onChange={(event) => setPaymentAmount(event.target.value)}
+              min="1"
+              max={payingDebt.remaining_amount}
+              step="1"
+              placeholder="e.g. 30000"
+              required
+              autoFocus
+              className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
+            />
+          </div>
 
-                            {paymentAmount && Number(paymentAmount) > 0 && Number(paymentAmount) <= Number(payingDebt.remaining_amount) && (
-                                <div className="rounded-xl border border-sky-100 bg-sky-50 p-4">
-                                    <div className="flex items-center justify-between gap-4">
-                                        <div>
-                                            <p className="text-xs font-medium text-sky-600">
-                                                Balance after payment
-                                            </p>
-                                            <p className="mt-1 text-lg font-bold text-sky-700">
-                                                {formatMoney(
-                                                    Number(payingDebt.remaining_amount) - Number(paymentAmount)
-                                                )}
-                                            </p>
-                                        </div>
-                                        <Banknote size={22} className="text-sky-500" />
-                                    </div>
-                                </div>
-                            )}
+          <div className="mt-2 flex items-center justify-between text-xs">
+            <span className="text-gray-400">
+              {t("maximumPayment")}
+            </span>
 
-                            <div className="flex justify-end gap-3 border-t border-gray-100 pt-5">
-                                <button
-                                    type="button"
-                                    onClick={closePaymentModal}
-                                    disabled={paying}
-                                    className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-50"
-                                >
-                                    Cancel
-                                </button>
+            <button
+              type="button"
+              onClick={() =>
+                setPaymentAmount(String(payingDebt.remaining_amount))
+              }
+              className="font-semibold text-sky-600 hover:text-sky-700"
+            >
+              {t("payRemaining", {
+                amount: formatMoney(payingDebt.remaining_amount),
+              })}
+            </button>
+          </div>
+        </div>
 
-    <button
-    type="submit"
-    disabled={paying}
-    className="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-60"
->
-    {paying ? (
-        <>
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-            Recording...
-        </>
-    ) : (
-        <>
-            <CheckCircle2 size={17} />
-            Record Payment
-        </>
-    )}
-</button>
-                            </div>
+        {/* Payment Notes */}
+        <div>
+          <label className="mb-2 block text-sm font-semibold text-gray-700">
+            {t("paymentNote")}
+          </label>
 
-                        </form>
-                    </div>
+          <textarea
+            value={paymentNotes}
+            onChange={(event) => setPaymentNotes(event.target.value)}
+            rows="3"
+            placeholder={t("optionalPaymentNote")}
+            className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-50"
+          />
+        </div>
+
+        {/* Balance After Payment */}
+        {paymentAmount &&
+          Number(paymentAmount) > 0 &&
+          Number(paymentAmount) <= Number(payingDebt.remaining_amount) && (
+            <div className="rounded-xl border border-sky-100 bg-sky-50 p-4">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-medium text-sky-600">
+                    {t("balanceAfterPayment")}
+                  </p>
+
+                  <p className="mt-1 text-lg font-bold text-sky-700">
+                    {formatMoney(
+                      Number(payingDebt.remaining_amount) -
+                        Number(paymentAmount)
+                    )}
+                  </p>
                 </div>
+
+                <Banknote size={22} className="text-sky-500" />
+              </div>
+            </div>
+          )}
+
+        {/* Action Buttons */}
+        <div className="flex justify-end gap-3 border-t border-gray-100 pt-5">
+          <button
+            type="button"
+            onClick={closePaymentModal}
+            disabled={paying}
+            className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-50"
+          >
+            {t("cancel")}
+          </button>
+
+          <button
+            type="submit"
+            disabled={paying}
+            className="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {paying ? (
+              <>
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                {t("recording")}
+              </>
+            ) : (
+              <>
+                <CheckCircle2 size={17} />
+                {t("recordPayment")}
+              </>
             )}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+)}
 
         </div>
     );

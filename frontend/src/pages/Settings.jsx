@@ -1,9 +1,10 @@
 
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+
 import {
   Settings as SettingsIcon,
   Building2,
-  Bell,
   Save,
   CheckCircle2,
   LayoutGrid,
@@ -17,25 +18,27 @@ import {
 const preferenceItems = [
   {
     key: "emailNotifications",
-    title: "Email notifications",
-    description: "Receive important account and business updates.",
+    titleKey: "emailNotifications",
+    descriptionKey: "emailNotificationsDescription",
     icon: Mail,
   },
   {
     key: "overdueReminders",
-    title: "Overdue reminders",
-    description: "Keep overdue customer debts visible to you.",
+    titleKey: "overdueReminders",
+    descriptionKey: "overdueRemindersDescription",
     icon: Clock3,
   },
   {
     key: "compactTables",
-    title: "Compact tables",
-    description: "Display more records using less screen space.",
+    titleKey: "compactTables",
+    descriptionKey: "compactTablesDescription",
     icon: Table2,
   },
 ];
 
 const Settings = () => {
+  const { t } = useTranslation();
+
   const [business, setBusiness] = useState({});
   const [preferences, setPreferences] = useState({
     emailNotifications: true,
@@ -51,6 +54,7 @@ const Settings = () => {
 
       if (storedBusiness) {
         const parsedBusiness = JSON.parse(storedBusiness);
+
         setBusiness(
           parsedBusiness && typeof parsedBusiness === "object"
             ? parsedBusiness
@@ -82,6 +86,7 @@ const Settings = () => {
       ...previous,
       [key]: value,
     }));
+
     setSaved(false);
   };
 
@@ -91,6 +96,7 @@ const Settings = () => {
         "lenex_preferences",
         JSON.stringify(preferences)
       );
+
       setSaved(true);
     } catch (error) {
       console.error("Unable to save preferences:", error);
@@ -102,7 +108,7 @@ const Settings = () => {
     business.business_name ||
     business.name ||
     business.businessName ||
-    "Your business";
+    t("yourBusiness");
 
   const businessEmail = business.business_email || "";
   const businessPhone = business.business_phone || "";
@@ -115,24 +121,24 @@ const Settings = () => {
         <div>
           <div className="mb-2 flex items-center gap-2 text-sky-600">
             <SettingsIcon size={17} />
+
             <span className="text-xs font-bold uppercase tracking-[0.16em]">
-              Workspace configuration
+              {t("workspaceConfiguration")}
             </span>
           </div>
 
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl">
-            Settings
+            {t("settings")}
           </h1>
 
           <p className="mt-2 max-w-xl text-sm leading-6 text-gray-500 dark:text-gray-400">
-            Manage your business information and personalize your LENEX
-            workspace experience.
+            {t("settingsDescription")}
           </p>
         </div>
 
         <div className="flex w-fit items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-400">
           <ShieldCheck size={15} />
-          Account protected
+          {t("accountProtected")}
         </div>
       </div>
 
@@ -147,16 +153,17 @@ const Settings = () => {
 
             <div>
               <h2 className="font-semibold text-gray-900 dark:text-white">
-                Business profile
+                {t("businessProfile")}
               </h2>
+
               <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-                Your registered business information
+                {t("registeredBusinessInformation")}
               </p>
             </div>
           </div>
 
           <span className="rounded-full bg-gray-100 px-3 py-1 text-[11px] font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">
-            Read only
+            {t("readOnly")}
           </span>
         </div>
 
@@ -170,22 +177,24 @@ const Settings = () => {
               <h3 className="truncate text-lg font-bold text-gray-900 dark:text-white">
                 {businessName}
               </h3>
+
               <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                LENEX business workspace
+                {t("lenexBusinessWorkspace")}
               </p>
             </div>
 
             <div className="flex items-center gap-2 self-start rounded-lg bg-sky-50 px-3 py-2 text-xs font-semibold text-sky-700 dark:bg-sky-950/40 dark:text-sky-400 sm:self-center">
               <Building2 size={14} />
-              Business account
+              {t("businessAccount")}
             </div>
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-4 border-t border-gray-100 pt-5 dark:border-gray-800 sm:grid-cols-2">
             <div>
               <label className="mb-2 block text-xs font-semibold text-gray-500 dark:text-gray-400">
-                BUSINESS NAME
+                {t("businessName").toUpperCase()}
               </label>
+
               <input
                 value={businessName}
                 readOnly
@@ -195,10 +204,11 @@ const Settings = () => {
 
             <div>
               <label className="mb-2 block text-xs font-semibold text-gray-500 dark:text-gray-400">
-                BUSINESS EMAIL
+                {t("businessEmail").toUpperCase()}
               </label>
+
               <input
-                value={businessEmail || "Not provided"}
+                value={businessEmail || t("notProvided")}
                 readOnly
                 className="w-full cursor-not-allowed rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-600 outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
               />
@@ -206,10 +216,11 @@ const Settings = () => {
 
             <div>
               <label className="mb-2 block text-xs font-semibold text-gray-500 dark:text-gray-400">
-                BUSINESS PHONE
+                {t("businessPhone").toUpperCase()}
               </label>
+
               <input
-                value={businessPhone || "Not provided"}
+                value={businessPhone || t("notProvided")}
                 readOnly
                 className="w-full cursor-not-allowed rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-600 outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
               />
@@ -217,8 +228,7 @@ const Settings = () => {
           </div>
 
           <p className="mt-4 text-xs leading-5 text-gray-500 dark:text-gray-400">
-            Business profile editing will be available through a separate
-            secure profile management feature.
+            {t("businessProfileEditingNotice")}
           </p>
         </div>
       </section>
@@ -233,10 +243,11 @@ const Settings = () => {
 
           <div>
             <h2 className="font-semibold text-gray-900 dark:text-white">
-              Workspace preferences
+              {t("workspacePreferences")}
             </h2>
+
             <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-              Customize how you use LENEX.
+              {t("workspacePreferencesDescription")}
             </p>
           </div>
         </div>
@@ -258,10 +269,11 @@ const Settings = () => {
 
                   <div className="min-w-0">
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                      {item.title}
+                      {t(item.titleKey)}
                     </h3>
+
                     <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
-                      {item.description}
+                      {t(item.descriptionKey)}
                     </p>
                   </div>
                 </div>
@@ -269,7 +281,7 @@ const Settings = () => {
                 <button
                   type="button"
                   role="switch"
-                  aria-label={item.title}
+                  aria-label={t(item.titleKey)}
                   aria-checked={enabled}
                   onClick={() =>
                     updatePreference(item.key, !enabled)
@@ -297,11 +309,11 @@ const Settings = () => {
             {saved ? (
               <p className="flex items-center gap-2 text-xs font-medium text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 size={15} />
-                Preferences saved successfully.
+                {t("preferencesSaved")}
               </p>
             ) : (
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Remember to save your changes.
+                {t("rememberToSaveChanges")}
               </p>
             )}
           </div>
@@ -312,7 +324,7 @@ const Settings = () => {
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-100 dark:focus:ring-sky-900/40"
           >
             <Save size={16} />
-            Save changes
+            {t("saveChanges")}
           </button>
         </div>
       </section>
@@ -326,17 +338,17 @@ const Settings = () => {
 
           <div>
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-              Your business data matters
+              {t("businessDataMatters")}
             </h3>
+
             <p className="mt-1 max-w-xl text-xs leading-5 text-gray-600 dark:text-gray-400">
-              Keep your login credentials private and always sign out when
-              using a shared device.
+              {t("businessDataSecurityDescription")}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-1 text-xs font-semibold text-sky-700 dark:text-sky-400">
-          Protected workspace
+          {t("protectedWorkspace")}
           <ChevronRight size={15} />
         </div>
       </section>
