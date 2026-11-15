@@ -4,6 +4,7 @@ import ProtectedRoute from "./ProtectedRoute.jsx";
 import Home from "../pages/public/Home.jsx";
 import Login from "../pages/public/Login.jsx";
 import Register from "../pages/public/Register.jsx";
+import Pricing from "../pages/public/Pricing.jsx";
 import ResetPassword from "../pages/ResetPassword.jsx";
 import ForgotPassword from "../pages/ForgotPassword.jsx";
 
@@ -44,7 +45,7 @@ const AppRoutes = () => {
                 element={<Register />}
             />
 
-            
+  <Route path="/pricing" element={<Pricing />} />          
 <Route path="/faq" element={<FAQ />} />
 <Route path="/reset-password" element={<ResetPassword />} />
 <Route path="/forgot-password" element={<ForgotPassword />} />

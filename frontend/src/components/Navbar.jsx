@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   UserPlus,
+  CreditCard,
 } from "lucide-react";
 
 const navLinks = [
@@ -195,6 +196,38 @@ function Navbar() {
                 </button>
               );
             })}
+            {/* PRICING ROUTE */}
+            <Link
+              to="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Pricing"
+              title="Pricing"
+              className={`
+                flex h-10 items-center justify-center rounded-xl
+                transition-all duration-300 ease-in-out
+                ${isScrolled ? "w-10 px-0" : "gap-2 px-3 lg:px-4"}
+                ${
+                  window.location.pathname === "/pricing"
+                    ? "bg-sky-50 text-sky-600 dark:bg-sky-500/15 dark:text-sky-400"
+                    : "text-gray-500 hover:bg-gray-100 hover:text-sky-600 dark:text-slate-400 dark:hover:bg-slate-800"
+                }
+              `}
+            >
+              <CreditCard size={19} strokeWidth={2} />
+              <span
+                className={`
+                  overflow-hidden whitespace-nowrap text-sm font-semibold
+                  transition-all duration-300 ease-in-out
+                  ${
+                    isScrolled
+                      ? "max-w-0 translate-x-2 opacity-0"
+                      : "max-w-20 translate-x-0 opacity-100"
+                  }
+                `}
+              >
+                Pricing
+              </span>
+            </Link>
           </nav>
 
           {/* RIGHT ACTIONS */}
@@ -280,6 +313,22 @@ function Navbar() {
                 </button>
               );
             })}
+            <Link
+              to="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`
+                flex w-full items-center gap-3 rounded-xl px-4 py-3
+                text-left text-sm font-semibold transition-all duration-300
+                ${
+                  window.location.pathname === "/pricing"
+                    ? "bg-sky-50 text-sky-600 dark:bg-sky-500/15 dark:text-sky-400"
+                    : "text-gray-600 hover:bg-sky-50 hover:text-sky-600 dark:text-slate-300 dark:hover:bg-slate-800"
+                }
+              `}
+            >
+              <CreditCard size={19} />
+              Pricing
+            </Link>
           </div>
 
           <div className="my-3 border-t border-gray-100 dark:border-slate-700" />
