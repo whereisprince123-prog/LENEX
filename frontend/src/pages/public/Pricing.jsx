@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar.jsx";
 import {
   Check,
   ArrowRight,
@@ -107,7 +108,7 @@ function Pricing() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-slate-50 pt-28 text-slate-900 transition-colors duration-300 dark:bg-[#050b1c] dark:text-white">
-
+     <Navbar />
       {/* HERO */}
       <section className="relative px-4 pb-16 pt-8 sm:px-6">
         <div className="pointer-events-none absolute left-1/2 top-0 -z-0 h-72 w-72 -translate-x-1/2 rounded-full bg-sky-400/10 blur-3xl" />
@@ -410,6 +411,11 @@ function Pricing() {
           </Link>
         </div>
       </section>
+
+        {/* Copyright */}
+    <p className="text-sm text-slate-500">
+      © 2026 LENEX. "All rights reserved"
+    </p>
     </main>
   );
 }
