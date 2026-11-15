@@ -430,7 +430,7 @@ function Home() {
         id="about"
         className="relative overflow-hidden bg-white py-16 dark:bg-slate-950 sm:py-20 lg:py-24"
       >
-        <div className="absolute right-0 top-20 h-72 w-72 rounded-full bg-sky-50 blur-3xl" />
+        <div className="absolute right-0 top-20 h-72 w-72 rounded-full bg-sky-50 blur-3xl dark:bg-slate-700" />
 
         <div className="relative z-10 mx-auto w-full max-w-5xl px-6">
           <div className="grid min-w-0 items-center gap-12 lg:grid-cols-2 lg:gap-14">
@@ -481,7 +481,7 @@ function Home() {
 
             {/* About Visual */}
             <div className="relative">
-              <div className="absolute -inset-6 rounded-[3rem] bg-yellow-50 blur-2xl" />
+              <div className="absolute -inset-6 rounded-[3rem] bg-yellow-50 blur-2xl dark:bg-slate-700" />
 
               <div className="relative rounded-3xl border border-gray-200 bg-white p-7 shadow-[0_25px_60px_-25px_rgba(15,23,42,0.18)] dark:border-slate-700 dark:bg-slate-900">
                 <div className="flex items-center justify-between rounded-xl bg-gray-50 p-4 dark:bg-slate-800">
@@ -1264,7 +1264,7 @@ function Home() {
 
     {/* Copyright */}
     <p className="text-sm text-slate-500">
-      © {new Date().getFullYear()} LENEX. {t("allRightsReserved")}
+      © {new Date().getFullYear()} LENEX. {t("All rights reserved")}
     </p>
   </div>
 </div>
