@@ -13,17 +13,17 @@ import {
   UserPlus,
 } from "lucide-react";
 
+const navLinks = [
+  { name: "Home", id: "home", icon: Home },
+  { name: "About", id: "about", icon: Info },
+  { name: "Contact", id: "contact", icon: Mail },
+];
+
 function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const navLinks = [
-    { name: "Home", id: "home", icon: Home },
-    { name: "About", id: "about", icon: Info },
-    { name: "Contact", id: "contact", icon: Mail },
-  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,7 +56,11 @@ function Navbar() {
     const section = document.getElementById(sectionId);
 
     if (section) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
       setActiveSection(sectionId);
       setMobileMenuOpen(false);
     }
@@ -75,7 +79,11 @@ function Navbar() {
         className={`
           fixed left-1/2 z-50 -translate-x-1/2
           transition-all duration-500 ease-in-out
-          ${isScrolled ? "top-5 w-fit" : "top-4 w-[94%] max-w-7xl"}
+          ${
+            isScrolled
+              ? "top-5 w-fit max-w-[94%]"
+              : "top-4 w-[94%] max-w-5xl"
+          }
         `}
       >
         <div
@@ -84,14 +92,13 @@ function Navbar() {
             rounded-2xl border border-gray-200/80
             bg-white/90 backdrop-blur-xl
             shadow-xl shadow-slate-900/10
-            transition-all duration-500
+            transition-all duration-500 ease-in-out
             dark:border-slate-700 dark:bg-slate-900/90
             dark:shadow-black/40
-
             ${
               isScrolled
                 ? "w-fit gap-3 px-3 py-2.5 sm:gap-5 sm:px-5"
-                : "w-full px-4 py-3 sm:px-6"
+                : "w-full gap-3 px-3 py-3 sm:px-6"
             }
           `}
         >
@@ -102,27 +109,40 @@ function Navbar() {
             aria-label="LENEX home"
             className="flex shrink-0 items-center gap-2.5"
           >
-            <div className={`
-              flex items-center justify-center rounded-xl
-              bg-sky-600 text-white shadow-lg shadow-sky-500/20
-              transition-all duration-300
-              ${isScrolled ? "h-9 w-9" : "h-10 w-10"}
-            `}>
+            <div
+              className={`
+                flex items-center justify-center rounded-xl
+                bg-sky-600 text-white
+                shadow-lg shadow-sky-500/20
+                transition-all duration-500
+                ${isScrolled ? "h-9 w-9" : "h-10 w-10"}
+              `}
+            >
               <span className="text-lg font-bold">L</span>
             </div>
 
-            <div className={isScrolled ? "hidden md:block" : "block"}>
+            <div
+              className={`
+                overflow-hidden transition-all duration-500
+                ${
+                  isScrolled
+                    ? "max-w-0 opacity-0 md:max-w-28 md:opacity-100"
+                    : "max-w-28 opacity-100"
+                }
+              `}
+            >
               <h1 className="text-lg font-bold tracking-tight text-gray-950 dark:text-white">
                 LENEX
               </h1>
-              <p className="text-[10px] font-medium text-gray-400 dark:text-slate-400">
+
+              <p className="whitespace-nowrap text-[10px] font-medium text-gray-400 dark:text-slate-400">
                 Debt Management
               </p>
             </div>
           </Link>
 
-          {/* NAVIGATION ICONS - MOBILE AND DESKTOP */}
-          <nav className="flex items-center gap-1.5 sm:gap-2">
+          {/* DESKTOP NAVIGATION */}
+          <nav className="hidden items-center gap-1.5 md:flex">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = activeSection === link.id;
@@ -132,12 +152,17 @@ function Navbar() {
                   key={link.id}
                   type="button"
                   onClick={() => scrollToSection(link.id)}
-                  title={link.name}
                   aria-label={link.name}
                   aria-current={isActive ? "location" : undefined}
+                  title={link.name}
                   className={`
-                    flex h-10 w-10 items-center justify-center
-                    rounded-xl transition-all duration-300
+                    group relative flex h-10 items-center justify-center
+                    rounded-xl transition-all duration-300 ease-in-out
+                    ${
+                      isScrolled
+                        ? "w-10 px-0"
+                        : "gap-2 px-3 lg:px-4"
+                    }
                     ${
                       isActive
                         ? "bg-sky-50 text-sky-600 dark:bg-sky-500/15 dark:text-sky-400"
@@ -145,7 +170,28 @@ function Navbar() {
                     }
                   `}
                 >
-                  <Icon size={19} strokeWidth={2} />
+                  <Icon
+                    size={19}
+                    strokeWidth={2}
+                    className={`
+                      shrink-0 transition-all duration-300
+                      ${isScrolled ? "scale-100" : "scale-95"}
+                    `}
+                  />
+
+                  <span
+                    className={`
+                      overflow-hidden whitespace-nowrap text-sm font-semibold
+                      transition-all duration-300 ease-in-out
+                      ${
+                        isScrolled
+                          ? "max-w-0 translate-x-2 opacity-0"
+                          : "max-w-20 translate-x-0 opacity-100"
+                      }
+                    `}
+                  >
+                    {link.name}
+                  </span>
                 </button>
               );
             })}
@@ -162,12 +208,13 @@ function Navbar() {
                 hidden md:flex items-center gap-2
                 rounded-xl bg-sky-600 px-4 py-2.5
                 text-sm font-semibold text-white
-                shadow-sm transition hover:-translate-y-0.5
+                shadow-sm transition-all duration-300
+                hover:-translate-y-0.5
                 hover:bg-sky-700 hover:shadow-lg
               "
             >
               <UserPlus size={17} />
-              Get started
+              <span>Get started</span>
             </Link>
 
             {/* MOBILE MENU BUTTON */}
@@ -179,7 +226,7 @@ function Navbar() {
               className="
                 flex h-10 w-10 items-center justify-center
                 rounded-xl border border-gray-200
-                bg-white text-gray-700 transition
+                bg-white text-gray-700 transition-all duration-300
                 hover:bg-gray-100
                 dark:border-slate-700 dark:bg-slate-800
                 dark:text-white dark:hover:bg-slate-700
@@ -197,32 +244,36 @@ function Navbar() {
             absolute left-0 right-0 top-full mt-3
             rounded-2xl border border-gray-200
             bg-white p-3 shadow-2xl
-            transition-all duration-300
+            transition-all duration-300 ease-in-out
             dark:border-slate-700 dark:bg-slate-900
             md:hidden
             ${
               mobileMenuOpen
                 ? "visible translate-y-0 opacity-100"
-                : "invisible -translate-y-2 opacity-0 pointer-events-none"
+                : "invisible pointer-events-none -translate-y-2 opacity-0"
             }
           `}
         >
           <div className="space-y-1">
             {navLinks.map((link) => {
               const Icon = link.icon;
+              const isActive = activeSection === link.id;
 
               return (
                 <button
                   key={link.id}
                   type="button"
                   onClick={() => scrollToSection(link.id)}
-                  className="
+                  className={`
                     flex w-full items-center gap-3
                     rounded-xl px-4 py-3 text-left
-                    text-sm font-semibold text-gray-600
-                    transition hover:bg-sky-50 hover:text-sky-600
-                    dark:text-slate-300 dark:hover:bg-slate-800
-                  "
+                    text-sm font-semibold transition-all duration-300
+                    ${
+                      isActive
+                        ? "bg-sky-50 text-sky-600 dark:bg-sky-500/15 dark:text-sky-400"
+                        : "text-gray-600 hover:bg-sky-50 hover:text-sky-600 dark:text-slate-300 dark:hover:bg-slate-800"
+                    }
+                  `}
                 >
                   <Icon size={19} />
                   {link.name}
@@ -241,7 +292,9 @@ function Navbar() {
                 flex items-center justify-center rounded-xl
                 border border-gray-200 px-3 py-3
                 text-sm font-semibold text-gray-700
+                transition hover:bg-gray-50
                 dark:border-slate-700 dark:text-white
+                dark:hover:bg-slate-800
               "
             >
               Sign in
@@ -254,6 +307,7 @@ function Navbar() {
                 flex items-center justify-center gap-2
                 rounded-xl bg-sky-600 px-3 py-3
                 text-sm font-semibold text-white
+                transition hover:bg-sky-700
               "
             >
               <UserPlus size={17} />
@@ -264,25 +318,28 @@ function Navbar() {
       </header>
 
       {/* BACK TO TOP */}
-      {showBackToTop && (
-        <button
-          type="button"
-          onClick={scrollToTop}
-          aria-label="Back to top"
-          title="Back to top"
-          className="
-            fixed bottom-6 right-6 z-50
-            flex h-12 w-12 items-center justify-center
-            rounded-full bg-sky-600 text-white
-            shadow-lg shadow-sky-200
-            transition-all duration-300
-            hover:-translate-y-1 hover:bg-sky-700
-            dark:shadow-sky-900/40
-          "
-        >
-          <ArrowUp size={20} />
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={scrollToTop}
+        aria-label="Back to top"
+        title="Back to top"
+        className={`
+          fixed bottom-6 right-6 z-50
+          flex h-12 w-12 items-center justify-center
+          rounded-full bg-sky-600 text-white
+          shadow-lg shadow-sky-200
+          transition-all duration-300
+          hover:-translate-y-1 hover:bg-sky-700
+          dark:shadow-sky-900/40
+          ${
+            showBackToTop
+              ? "visible translate-y-0 opacity-100"
+              : "invisible translate-y-4 opacity-0"
+          }
+        `}
+      >
+        <ArrowUp size={20} />
+      </button>
     </>
   );
 }
