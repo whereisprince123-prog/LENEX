@@ -65,7 +65,7 @@ function Home() {
         <div className="absolute -left-40 top-20 h-[500px] w-[500px] rounded-full bg-yellow-100/70 blur-3xl dark:bg-yellow-500/5" />
         <div className="absolute right-0 top-0 h-[450px] w-[450px] rounded-full bg-sky-50 blur-3xl dark:bg-sky-500/5" />
 
-        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-16 px-6 py-24 lg:grid-cols-2 lg:py-32">
+        <div className="relative z-10 mx-auto grid w-full max-w-5xl items-center gap-16 px-6 py-24 lg:grid-cols-2 lg:py-32">
           {/* Hero Content */}
           <div>
             <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-yellow-200 bg-yellow-50 px-4 py-2">
@@ -218,11 +218,11 @@ function Home() {
       {/* HOW IT WORKS */}
       <section
         id="how-it-works"
-        className="relative overflow-hidden bg-white py-24 transition-colors duration-300 dark:bg-slate-950 sm:py-28"
+        className="relative overflow-hidden bg-white py-16 transition-colors duration-300 dark:bg-slate-950 sm:py-20 lg:py-24"
       >
         <div className="pointer-events-none absolute left-1/2 top-20 h-80 w-80 -translate-x-1/2 rounded-full bg-sky-200/20 blur-3xl" />
 
-        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="relative mx-auto w-full max-w-5xl px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-600">
               <svg
@@ -247,7 +247,7 @@ function Home() {
             </p>
           </div>
 
-          <div className="mt-20 grid grid-cols-1 gap-14 lg:grid-cols-4 lg:gap-0">
+          <div className="mt-16 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4 xl:gap-6">
             {/* STEP 1 */}
             <div className="relative flex flex-col items-center text-center">
               <div className="absolute left-1/2 top-0 z-20 flex h-10 w-10 -translate-x-[88px] -translate-y-1/2 items-center justify-center rounded-full bg-sky-500 text-sm font-bold text-white shadow-lg shadow-sky-200 dark:shadow-sky-400">
@@ -428,12 +428,12 @@ function Home() {
       {/* ABOUT */}
       <section
         id="about"
-        className="relative overflow-hidden bg-white py-24 dark:bg-slate-950"
+        className="relative overflow-hidden bg-white py-16 dark:bg-slate-950 sm:py-20 lg:py-24"
       >
         <div className="absolute right-0 top-20 h-72 w-72 rounded-full bg-sky-50 blur-3xl" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-6">
-          <div className="grid items-center gap-16 lg:grid-cols-2">
+        <div className="relative z-10 mx-auto w-full max-w-5xl px-6">
+          <div className="grid min-w-0 items-center gap-12 lg:grid-cols-2 lg:gap-14">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-sky-600">
                 {t("aboutLenex")}
@@ -546,9 +546,9 @@ function Home() {
       {/* CONTACT */}
       <section
         id="contact"
-        className="bg-white px-6 py-24 dark:bg-slate-950 sm:px-10 lg:px-16"
+        className="bg-white px-4 py-16 dark:bg-slate-950 sm:px-6 sm:py-20 lg:px-8 lg:py-24"
       >
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto w-full max-w-5xl">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-bold uppercase tracking-[0.25em] text-sky-500">
               {t("contactUs")}
@@ -563,7 +563,7 @@ function Home() {
             </p>
           </div>
 
-          <div className="mt-16 grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-stretch">
+          <div className="mt-12 grid min-w-0 gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-10 lg:items-stretch">
             {/* LEFT CONTACT CARD */}
             <div className="relative overflow-hidden rounded-[28px] bg-slate-950 p-8 text-white sm:p-10">
               <div className="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-sky-500/10" />
@@ -863,7 +863,7 @@ function Home() {
 
       {/* FINAL CTA */}
       <section className="bg-white py-20 dark:bg-slate-950">
-        <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto w-full max-w-5xl px-6">
           <div className="relative overflow-hidden rounded-[2rem] bg-sky-600 px-8 py-14 text-center sm:px-12">
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-sky-500 blur-2xl" />
             <div className="absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-yellow-300/20 blur-3xl" />
@@ -901,7 +901,7 @@ function Home() {
         <div className="pointer-events-none absolute left-[8%] bottom-20 h-3 w-3 rounded-full bg-yellow-400/60" />
         <div className="pointer-events-none absolute right-[30%] top-24 h-2 w-2 rounded-full bg-sky-400/50" />
 
-        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="relative mx-auto w-full max-w-5xl px-6 lg:px-8">
           {/* TOP CTA */}
           <div className="relative overflow-hidden border-b border-white/10 py-16 sm:py-20">
             <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 opacity-30">

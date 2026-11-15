@@ -60,6 +60,7 @@
   "registeredCustomerCount_other": "Abakiriya {{count}} banditswe",
   "deleteCustomer": "Siba Umukiriya",
   "closeModal": "Funga idirishya",
+   "howItWorksDescription": "Genzura imyenda abakiriya bakurimo mu buryo bworoshye. Andika imyenda, kurikirana amafaranga yishyuwe n'asigaye, kandi ucunge neza imari y'ubucuruzi bwawe — byose ahantu hamwe.",
 
   "unableToLoadDebts": "Ntibishobotse gufungura amakuru y'amadeni.",
   "unableToSaveDebt": "Ntibishobotse kubika ideni.",
